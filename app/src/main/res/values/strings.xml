@@ -10,6 +10,9 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="chat_empty">Chat empty</string>
+    <string name="text_input_title_workmates_chat_fragment">Composer votre message</string>
+    <string name="button_title_workmates_chat_fragment">ENVOYER</string>
 
     <string name="menu_your_lunch">Your lunch</string>
     <string name="menu_settings">Settings</string>

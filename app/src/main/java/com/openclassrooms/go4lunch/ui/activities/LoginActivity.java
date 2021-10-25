@@ -1,7 +1,12 @@
 package com.openclassrooms.go4lunch.ui.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -12,12 +17,19 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.go4lunch.databinding.ActivityLoginBinding;
 
+import com.openclassrooms.go4lunch.viewmodels.ViewModelGo4Lunch;
+import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     private static final int RC_SIGN_IN = 123 ;
+    ViewModelFactoryGo4Lunch viewModelFactoryGo4Lunch ;
+    ViewModelGo4Lunch viewModelGo4Lunch;
 
     @Override
     ActivityLoginBinding getViewBinding() {
@@ -28,6 +40,23 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupListeners();
+        viewModelFactoryGo4Lunch = new ViewModelFactoryGo4Lunch();
+        viewModelGo4Lunch = viewModelFactoryGo4Lunch.create(ViewModelGo4Lunch.class);
+
+        /*try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.openclassrooms.go4lunch",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }*/
     }
 
     private void setupListeners(){
@@ -40,6 +69,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                                     new AuthUI.IdpConfig.FacebookBuilder().build()))
                             .setIsSmartLockEnabled(false, true)
                             .build(),RC_SIGN_IN);
+
         });
 
         binding.googleLoginButton.setOnClickListener(view -> {
@@ -50,6 +80,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                                     new AuthUI.IdpConfig.GoogleBuilder().build()))
                             .setIsSmartLockEnabled(false, true)
                             .build(),RC_SIGN_IN);
+
         });
     }
 
@@ -92,6 +123,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             // SUCCESS
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
+                viewModelGo4Lunch.createUser();
                 Intent intentMainActivity = new Intent(this, MainActivity.class);
                 startActivity(intentMainActivity);
             } else {

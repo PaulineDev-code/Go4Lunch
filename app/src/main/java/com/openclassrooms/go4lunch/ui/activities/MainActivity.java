@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startChatActivity();
             }
         });
 
@@ -60,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    private void startChatActivity() {
+        Intent intentChatActivity = new Intent(this, ChatActivity.class);
+        startActivity(intentChatActivity);
+    }
 
     private void initDrawerNavigation() {
         DrawerLayout drawer = binding.drawerLayout;
@@ -101,13 +103,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void loadFragment(Fragment fragment) {
+    /*public void loadFragment(Fragment fragment) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.main_frame, fragment, null);
             transaction.remove(Objects.requireNonNull(getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_content_main2)));
-            /*transaction.setReorderingAllowed(true);*/
+            *//*transaction.setReorderingAllowed(true);*//*
             transaction.commit();
-        }
+        }*/
 
 
 

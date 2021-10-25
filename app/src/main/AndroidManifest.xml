@@ -19,7 +19,12 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/Theme.Go4Lunch.NoActionBar"></activity>
+            android:theme="@style/Theme.Go4Lunch.NoActionBar" />
+        <activity
+            android:name=".ui.activities.ChatActivity"
+            android:label="ChatActivity"
+            android:theme="@style/Theme.Go4Lunch.NoActionBar"
+            android:parentActivityName=".ui.activities.MainActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

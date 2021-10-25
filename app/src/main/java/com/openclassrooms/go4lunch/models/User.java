@@ -17,6 +17,9 @@ public class User {
         this.urlPicture = urlPicture;
     }
 
+    public User() {
+    }
+
     // --- GETTERS ---
     public String getUid() {
         return uid;

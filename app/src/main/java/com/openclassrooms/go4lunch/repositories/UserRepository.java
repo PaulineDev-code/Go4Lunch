@@ -1,56 +1,75 @@
 package com.openclassrooms.go4lunch.repositories;
 
 import android.content.Context;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.openclassrooms.go4lunch.helpers.UserHelper;
 import com.openclassrooms.go4lunch.models.User;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class UserRepository {
 
-    private static final String COLLECTION_NAME = "users";
-    private static final String USERNAME_FIELD = "username";
 
+    private final UserHelper userHelper = UserHelper.getInstance();
+    private static UserRepository USER_REPOSITORY;
 
-
-    // Get the Collection Reference
-    private CollectionReference getUsersCollection() {
-        return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
+    //Instance of Repository
+    public static UserRepository getInstance() {
+        if (USER_REPOSITORY == null) {
+            USER_REPOSITORY = new UserRepository();
+        }
+        return USER_REPOSITORY;
     }
+
 
     // Create User in Firestore
     public void createUser() {
-        FirebaseUser user = getCurrentUser();
-        if(user != null){
-            String urlPicture = (user.getPhotoUrl() != null) ? user.getPhotoUrl().toString() : null;
-            String userEmail = user.getEmail();
-            String username = user.getDisplayName();
-            String uid = user.getUid();
-
-            User userToCreate = new User(uid, username, userEmail, urlPicture);
-            this.getUsersCollection().document().set(userToCreate);
-        }
+        userHelper.createUser();
     }
 
     public Task<QuerySnapshot> getAllUsers() {
-        return getUsersCollection().get();
+        return userHelper.getAllUsers();
+    }
 
+    public Task<User> getUserData(){
+        // Get the user from Firestore and cast it to a User model Object
+        return userHelper.getUserData().continueWith(new Continuation<DocumentSnapshot, User>() {
+            @Override
+            public User then(@NonNull @NotNull Task<DocumentSnapshot> task) throws Exception {
+                return Objects.requireNonNull(task.getResult()).toObject(User.class);
+            }
+        });
     }
 
     @Nullable
     public FirebaseUser getCurrentUser(){
-        return FirebaseAuth.getInstance().getCurrentUser();
+        return userHelper.getCurrentUser();
+    }
+
+    public Boolean isCurrentUserLogged(){
+        return (this.getCurrentUser() != null);
     }
 
     public Task<Void> signOut(Context context){
-        return AuthUI.getInstance().signOut(context);
+        return userHelper.signOut(context);
     }
 
 }
