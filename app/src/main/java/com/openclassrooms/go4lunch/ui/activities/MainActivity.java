@@ -21,10 +21,13 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.openclassrooms.go4lunch.BuildConfig;
 import com.openclassrooms.go4lunch.R;
 
 import com.openclassrooms.go4lunch.databinding.ActivityMain2Binding;
 import com.openclassrooms.go4lunch.ui.drawerfragments.gallery.GalleryFragment;
+import com.openclassrooms.go4lunch.BuildConfig;
 
 import java.util.Objects;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMain2Binding binding;
     private BottomNavigationView bottomNavigationView;
+    private static final String apiKey=BuildConfig.apiKey;
 
 
     @Override

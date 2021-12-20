@@ -1,3 +1,4 @@
+/*
 package com.openclassrooms.go4lunch.viewmodelfactory;
 
 import android.app.Application;
@@ -8,18 +9,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.LocationServices;
 import com.openclassrooms.go4lunch.repositories.LocationRepository;
-import com.openclassrooms.go4lunch.repositories.RestaurantRepository;
-import com.openclassrooms.go4lunch.repositories.UserRepository;
 import com.openclassrooms.go4lunch.utils.MainApplication;
 import com.openclassrooms.go4lunch.utils.PermissionChecker;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
-import com.openclassrooms.go4lunch.viewmodels.ViewModelSignIn;
 
-public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
-
-    private volatile static ViewModelFactoryGo4Lunch sInstance;
-
-    private final UserRepository userRepository = new UserRepository();
+public class ViewModelFactoryLocation implements ViewModelProvider.Factory {
+    private volatile static ViewModelFactoryLocation sInstance;
 
     @NonNull
     private final PermissionChecker permissionChecker;
@@ -27,19 +22,14 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
     @NonNull
     private final LocationRepository locationRepository;
 
-    @NonNull
-    private final  RestaurantRepository restaurantRepository = new RestaurantRepository();
-
-
-
-    public static ViewModelFactoryGo4Lunch getInstance() {
+    public static ViewModelFactoryLocation getInstance() {
         if (sInstance == null) {
             // Double Checked Locking singleton pattern with Volatile works on Android since Honeycomb
-            synchronized (ViewModelFactoryGo4Lunch.class) {
+            synchronized (ViewModelFactoryLocation.class) {
                 if (sInstance == null) {
                     Application application = MainApplication.getApplication();
 
-                    sInstance = new ViewModelFactoryGo4Lunch(
+                    sInstance = new ViewModelFactoryLocation(
                             new PermissionChecker(
                                     application
                             ),
@@ -47,8 +37,7 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
                                     LocationServices.getFusedLocationProviderClient(
                                             application
                                     )
-                            ),
-                            new RestaurantRepository()
+                            )
                     );
                 }
             }
@@ -57,30 +46,24 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
         return sInstance;
     }
 
-    private ViewModelFactoryGo4Lunch(
+    private ViewModelFactoryLocation(
             @NonNull PermissionChecker permissionChecker,
-            @NonNull LocationRepository locationRepository,
-            @NonNull RestaurantRepository restaurantRepository
-            ) {
+            @NonNull LocationRepository locationRepository
+    ) {
         this.permissionChecker = permissionChecker;
         this.locationRepository = locationRepository;
     }
-
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(ViewModelSignIn.class)) {
-            return (T) new ViewModelSignIn(userRepository);
-        }
-        else if (modelClass.isAssignableFrom(ViewModelMapView.class)){
+        if (modelClass.isAssignableFrom(ViewModelMapView.class)) {
             return (T) new ViewModelMapView(
                     permissionChecker,
-                    locationRepository,
-                    restaurantRepository
+                    locationRepository
             );
         }
-        throw new IllegalArgumentException("Unknown ViewModel class" + modelClass);
+        throw new IllegalArgumentException("Unknown ViewModel class : " + modelClass);
     }
-}
+}*/

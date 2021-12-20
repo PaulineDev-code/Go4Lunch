@@ -1,15 +1,11 @@
 package com.openclassrooms.go4lunch.ui.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -17,19 +13,16 @@ import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.go4lunch.databinding.ActivityLoginBinding;
 
-import com.openclassrooms.go4lunch.viewmodels.ViewModelGo4Lunch;
+import com.openclassrooms.go4lunch.viewmodels.ViewModelSignIn;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
 
     private static final int RC_SIGN_IN = 123 ;
-    ViewModelFactoryGo4Lunch viewModelFactoryGo4Lunch ;
-    ViewModelGo4Lunch viewModelGo4Lunch;
+    ViewModelSignIn viewModelSignIn;
 
     @Override
     ActivityLoginBinding getViewBinding() {
@@ -40,8 +33,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupListeners();
-        viewModelFactoryGo4Lunch = new ViewModelFactoryGo4Lunch();
-        viewModelGo4Lunch = viewModelFactoryGo4Lunch.create(ViewModelGo4Lunch.class);
+        viewModelSignIn = new ViewModelProvider(this, ViewModelFactoryGo4Lunch.getInstance()).get(ViewModelSignIn.class);
+
 
         /*try {
             PackageInfo info = getPackageManager().getPackageInfo(
@@ -123,7 +116,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
             // SUCCESS
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
-                viewModelGo4Lunch.createUser();
+                viewModelSignIn.createUser();
                 Intent intentMainActivity = new Intent(this, MainActivity.class);
                 startActivity(intentMainActivity);
             } else {

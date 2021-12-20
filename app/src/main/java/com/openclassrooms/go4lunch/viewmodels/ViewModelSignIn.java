@@ -7,11 +7,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.openclassrooms.go4lunch.models.User;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
 
-public class ViewModelGo4Lunch extends ViewModel {
+public class ViewModelSignIn extends ViewModel {
 
     private final UserRepository userRepository;
 
-    public ViewModelGo4Lunch(UserRepository userRepository) {
+    public ViewModelSignIn(UserRepository userRepository) {
 
         this.userRepository = userRepository;
     }
