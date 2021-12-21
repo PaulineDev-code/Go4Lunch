@@ -90,11 +90,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         startLocationUpdate();
         String userLocation = String.valueOf(position);
-        viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
+       /* viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
             if(results != null){
                 addMarkers(results);
             }
-        });
+        });*/
     }
 
     /*private void setPosition(Location location) {
