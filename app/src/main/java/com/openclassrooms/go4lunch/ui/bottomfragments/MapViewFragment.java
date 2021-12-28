@@ -47,6 +47,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private ViewModelFactoryGo4Lunch viewModelFactoryGo4Lunch;
     private ViewModelMapView viewModelMapView;
     private LatLng position ;
+    private String userLocation;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -89,8 +90,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         startLocationUpdate();
-        String userLocation = String.valueOf(position);
-       /* viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
+        /*String userLocation = position.latitude+","+position.longitude;
+        viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
             if(results != null){
                 addMarkers(results);
             }
@@ -108,6 +109,12 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
             if(loc != null){
                 position = new LatLng(loc.getLatitude(),loc.getLongitude());
                 Log.i("géoloc", "startLocationUpdate: "+position);
+                userLocation = position.latitude+","+position.longitude;
+                viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
+                    if(results != null){
+                        addMarkers(results);
+                    }
+                });
                 if(mMap != null) {
                     mMap.addMarker(new MarkerOptions().position(position).title("Marker: Your location"));
                     mMap.stopAnimation();
@@ -115,6 +122,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
+
+
     }
 
     @Override
