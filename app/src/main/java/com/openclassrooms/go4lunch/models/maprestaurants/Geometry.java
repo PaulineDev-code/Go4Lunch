@@ -1,6 +1,6 @@
 package com.openclassrooms.go4lunch.models.maprestaurants;
 
-import android.location.Location;
+
 
 import com.google.geo.type.Viewport;
 import com.google.gson.annotations.Expose;

@@ -5,9 +5,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +25,7 @@ import com.openclassrooms.go4lunch.models.User;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 public class UserRepository {
@@ -57,6 +60,18 @@ public class UserRepository {
                 return Objects.requireNonNull(task.getResult()).toObject(User.class);
             }
         });
+    }
+
+    //Get the list of users without the current user in it
+    public MutableLiveData<List<User>> getWorkmates(){
+        getAllUsers().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+
+                }
+            }
+        })
     }
 
     @Nullable

@@ -89,7 +89,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        startLocationUpdate();
+
         /*String userLocation = position.latitude+","+position.longitude;
         viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
             if(results != null){
@@ -117,7 +117,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                 });
                 if(mMap != null) {
                     mMap.addMarker(new MarkerOptions().position(position).title("Marker: Your location"));
-                    mMap.stopAnimation();
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
                 }
             }
@@ -152,6 +151,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.mMap = googleMap;
+        startLocationUpdate();
         // Add a marker in Sydney and move the camera
         /*mMap.addMarker(new MarkerOptions().position(position).title("Marker in Sydney"));*/
         /*mMap.moveCamera(CameraUpdateFactory.newLatLng(position));*/
@@ -161,8 +161,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         for (Result restaurant : restaurants){
             mMap.addMarker(new MarkerOptions()
             .position(new LatLng(
-                    restaurant.getGeometry().getLocation().getLatitude(),
-                    restaurant.getGeometry().getLocation().getLongitude()))
+                    restaurant.getGeometry().getLocation().getLat(),
+                    restaurant.getGeometry().getLocation().getLng()))
             .title(restaurant.getName())
             .snippet(restaurant.getVicinity())
             );

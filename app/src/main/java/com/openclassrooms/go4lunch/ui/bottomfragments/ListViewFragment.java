@@ -3,12 +3,15 @@ package com.openclassrooms.go4lunch.ui.bottomfragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.openclassrooms.go4lunch.R;
+import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
+import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +24,7 @@ public class ListViewFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ViewModelMapView viewModelMapView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -55,6 +59,8 @@ public class ListViewFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        viewModelMapView = new ViewModelProvider(
+                this, ViewModelFactoryGo4Lunch.getInstance()).get(ViewModelMapView.class);
     }
 
     @Override

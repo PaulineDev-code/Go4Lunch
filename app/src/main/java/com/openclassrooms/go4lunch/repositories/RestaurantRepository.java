@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class RestaurantRepository {
 
-    private static final String TYPE_KEYWORD = "Restaurants";
+    private static final String TYPE_KEYWORD = "restaurant";
     private final MutableLiveData<List<Result>> getNearbyResults = new MutableLiveData<>();
 
     public MutableLiveData<List<Result>> getNearbyRestaurants(String location){
