@@ -63,6 +63,7 @@ public class UserRepository {
     }
 
     //Get the list of users without the current user in it
+/*
     public MutableLiveData<List<User>> getWorkmates(){
         getAllUsers().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -73,6 +74,7 @@ public class UserRepository {
             }
         })
     }
+*/
 
     @Nullable
     public FirebaseUser getCurrentUser(){
