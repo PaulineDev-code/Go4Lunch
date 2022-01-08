@@ -20,7 +20,5 @@ public class ViewModelSignIn extends ViewModel {
         userRepository.createUser();
     }
 
-    public Task<QuerySnapshot> getAllUsers() {
-        return userRepository.getAllUsers();
-    }
+
 }

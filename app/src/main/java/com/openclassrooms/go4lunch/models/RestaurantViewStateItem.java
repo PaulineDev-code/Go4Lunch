@@ -1,4 +1,4 @@
-package com.openclassrooms.go4lunch.ui.bottomfragments;
+package com.openclassrooms.go4lunch.models;
 
 import com.openclassrooms.go4lunch.models.maprestaurants.Location;
 import com.openclassrooms.go4lunch.models.maprestaurants.Photo;

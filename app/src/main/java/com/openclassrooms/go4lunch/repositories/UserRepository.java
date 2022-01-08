@@ -19,12 +19,14 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.openclassrooms.go4lunch.helpers.UserHelper;
 import com.openclassrooms.go4lunch.models.User;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,6 +35,7 @@ public class UserRepository {
 
     private final UserHelper userHelper = UserHelper.getInstance();
     private static UserRepository USER_REPOSITORY;
+    private final MutableLiveData<List<User>> getAllWorkmates = new MutableLiveData<>();
 
     //Instance of Repository
     public static UserRepository getInstance() {
@@ -48,9 +51,6 @@ public class UserRepository {
         userHelper.createUser();
     }
 
-    public Task<QuerySnapshot> getAllUsers() {
-        return userHelper.getAllUsers();
-    }
 
     public Task<User> getUserData(){
         // Get the user from Firestore and cast it to a User model Object
@@ -62,19 +62,22 @@ public class UserRepository {
         });
     }
 
-    //Get the list of users without the current user in it
-/*
+    //Get the list of users without the current user
     public MutableLiveData<List<User>> getWorkmates(){
-        getAllUsers().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        userHelper.getAllWorkmates().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
-
+                    ArrayList<User> users = new ArrayList<>();
+                    for( QueryDocumentSnapshot document : task.getResult()){
+                        users.add(document.toObject(User.class));
+                    }
+                    getAllWorkmates.postValue(users);
                 }
             }
-        })
+        });
+        return getAllWorkmates;
     }
-*/
 
     @Nullable
     public FirebaseUser getCurrentUser(){

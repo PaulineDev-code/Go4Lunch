@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 
 import static android.content.ContentValues.TAG;
 
+import java.util.Objects;
+
 public class UserHelper {
 
     private static final String COLLECTION_NAME = "users";
@@ -78,7 +80,7 @@ public class UserHelper {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "onComplete: You got the doc!");
                 } else {
-                    String errorMessage = task.getException().getMessage();
+                    String errorMessage = Objects.requireNonNull(task.getException()).getMessage();
                     /*Log.e(TAG, "onComplete: fail getting document" + errorMessage, Exception)*/
                     Log.d(TAG, "onComplete: failed to get document" + errorMessage);
                 }
@@ -87,8 +89,9 @@ public class UserHelper {
 
     }
 
-    public Task<QuerySnapshot> getAllUsers() {
-        return getUsersCollection().get();
+    //Get the list of users without the current user
+    public Task<QuerySnapshot> getAllWorkmates() {
+        return getUsersCollection().whereNotEqualTo("uid", Objects.requireNonNull(getCurrentUser()).getUid()).get();
 
     }
 
