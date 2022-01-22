@@ -26,6 +26,7 @@ import com.openclassrooms.go4lunch.BuildConfig;
 import com.openclassrooms.go4lunch.R;
 
 import com.openclassrooms.go4lunch.databinding.ActivityMain2Binding;
+import com.openclassrooms.go4lunch.repositories.UserRepository;
 import com.openclassrooms.go4lunch.ui.drawerfragments.gallery.GalleryFragment;
 import com.openclassrooms.go4lunch.BuildConfig;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMain2Binding binding;
     private BottomNavigationView bottomNavigationView;
     private static final String apiKey=BuildConfig.apiKey;
+    private UserRepository userRepository;
 
 
     @Override
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        userRepository = new UserRepository();
 
         setSupportActionBar(binding.appBarMain.toolbar);
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
@@ -97,8 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         else if (id == R.id.nav_slideshow) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            finish();
+            userRepository.signOut(this).addOnSuccessListener(aVoid -> {finish();});
         }
         return true;});
 

@@ -91,8 +91,13 @@ public class UserHelper {
 
     //Get the list of users without the current user
     public Task<QuerySnapshot> getAllWorkmates() {
-        return getUsersCollection().whereNotEqualTo("uid", Objects.requireNonNull(getCurrentUser()).getUid()).get();
 
+        return getUsersCollection().whereNotEqualTo(
+                "uid", getCurrentUser().getUid()).get().addOnCompleteListener(
+                    task -> {
+                        if(task.isSuccessful()) { task.getResult(); }
+                    }
+        );
     }
 
     @Nullable

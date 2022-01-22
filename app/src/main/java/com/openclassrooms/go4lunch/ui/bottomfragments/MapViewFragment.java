@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 import com.openclassrooms.go4lunch.R;
+import com.openclassrooms.go4lunch.models.RestaurantViewStateItem;
 import com.openclassrooms.go4lunch.models.maprestaurants.Result;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
@@ -90,18 +91,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        /*String userLocation = position.latitude+","+position.longitude;
-        viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
-            if(results != null){
-                addMarkers(results);
-            }
-        });*/
     }
-
-    /*private void setPosition(Location location) {
-        this.position = new LatLng(location.getLatitude(), location.getLongitude());
-    }*/
-
     private void startLocationUpdate(){
         viewModelMapView.getLocationLiveData().observe(getViewLifecycleOwner(), loc -> {
             /*currentLocation.set(loc);*/
@@ -110,7 +100,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                 position = new LatLng(loc.getLatitude(),loc.getLongitude());
                 Log.i("géoloc", "startLocationUpdate: "+position);
                 userLocation = position.latitude+","+position.longitude;
-                viewModelMapView.getRestaurantLiveData(userLocation).observe(getViewLifecycleOwner(), results -> {
+                viewModelMapView.initRestaurantLiveData(userLocation);
+                viewModelMapView.getRestaurantItemsLiveData().observe(getViewLifecycleOwner(), results -> {
                     if(results != null){
                         addMarkers(results);
                     }
@@ -152,17 +143,15 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.mMap = googleMap;
         startLocationUpdate();
-        // Add a marker in Sydney and move the camera
-        /*mMap.addMarker(new MarkerOptions().position(position).title("Marker in Sydney"));*/
-        /*mMap.moveCamera(CameraUpdateFactory.newLatLng(position));*/
+
     }
 
-    private void addMarkers(List<Result> restaurants){
-        for (Result restaurant : restaurants){
+    private void addMarkers(List<RestaurantViewStateItem> restaurants){
+        for (RestaurantViewStateItem restaurant : restaurants){
             mMap.addMarker(new MarkerOptions()
             .position(new LatLng(
-                    restaurant.getGeometry().getLocation().getLat(),
-                    restaurant.getGeometry().getLocation().getLng()))
+                    restaurant.getLocation().getLat(),
+                    restaurant.getLocation().getLng()))
             .title(restaurant.getName())
             .snippet(restaurant.getVicinity())
             );

@@ -78,7 +78,8 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
             return (T) new ViewModelMapView(
                     permissionChecker,
                     locationRepository,
-                    restaurantRepository
+                    restaurantRepository,
+                    userRepository
             );
         }
         throw new IllegalArgumentException("Unknown ViewModel class" + modelClass);

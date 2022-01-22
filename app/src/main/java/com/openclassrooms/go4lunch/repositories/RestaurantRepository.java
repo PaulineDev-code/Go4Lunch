@@ -12,6 +12,7 @@ import com.openclassrooms.go4lunch.models.maprestaurants.Result;
 import com.openclassrooms.go4lunch.service.ApiInterface;
 import com.openclassrooms.go4lunch.service.RetrofitService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,7 +22,8 @@ import retrofit2.Response;
 public class RestaurantRepository {
 
     private static final String TYPE_KEYWORD = "restaurant";
-    private final MutableLiveData<List<Result>> getNearbyResults = new MutableLiveData<>();
+    private final MutableLiveData<List<Result>> getNearbyRestaurants = new MutableLiveData<>();
+
 
     public MutableLiveData<List<Result>> getNearbyRestaurants(String location){
         ApiInterface apiInterface = RetrofitService.getInterface();
@@ -29,12 +31,12 @@ public class RestaurantRepository {
             Call<PlacesPOJO> nearbyRestaurants = apiInterface.getNearbyPlaces(
                     location, 1500, TYPE_KEYWORD, BuildConfig.apiKey
             );
-
+            getNearbyRestaurants.setValue(new ArrayList<>());
             nearbyRestaurants.enqueue(new Callback<PlacesPOJO>() {
                 @Override
                 public void onResponse(@NonNull Call<PlacesPOJO> call, @NonNull Response<PlacesPOJO> response) {
                     if(response.body() != null) {
-                        getNearbyResults.setValue(response.body().getResults());
+                        getNearbyRestaurants.setValue(response.body().getResults());
                     }
                 }
 
@@ -44,7 +46,11 @@ public class RestaurantRepository {
                 }
             });
         }
-        return getNearbyResults;
+        return getNearbyRestaurants;
+    }
+
+    public MutableLiveData<List<Result>> getNearbyRestaurantsResults() {
+        return getNearbyRestaurants;
     }
 
 }
