@@ -54,7 +54,7 @@ public class UserHelper {
             String username = user.getDisplayName();
             String uid = user.getUid();
 
-            User userToCreate = new User(uid, username, userEmail, urlPicture, null);
+            User userToCreate = new User(uid, username, userEmail, urlPicture, null, null);
             DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(userToCreate.getUid());
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override

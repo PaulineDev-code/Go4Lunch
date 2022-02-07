@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/mapViewFragment"
-        android:name="com.openclassrooms.go4lunch.ui.bottomfragments.MapViewFragment"
+        android:name="com.openclassrooms.go4lunch.ui.MapViewFragment"
         android:label="fragment_map_view"
         tools:layout="@layout/fragment_map_view" />
 
     <fragment
         android:id="@+id/listViewFragment"
-        android:name="com.openclassrooms.go4lunch.ui.bottomfragments.ListViewFragment"
+        android:name="com.openclassrooms.go4lunch.ui.ListViewFragment"
         android:label="fragment_list_view"
         tools:layout="@layout/fragment_list_view" />
 
     <fragment
         android:id="@+id/workmatesFragment"
-        android:name="com.openclassrooms.go4lunch.ui.bottomfragments.WorkmatesFragment"
+        android:name="com.openclassrooms.go4lunch.ui.WorkmatesFragment"
         android:label="fragment_workmates"
         tools:layout="@layout/fragment_workmates"/>
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.openclassrooms.go4lunch.ui.drawerfragments.gallery.GalleryFragment"
+        android:name="com.openclassrooms.go4lunch.ui.GalleryFragment"
         android:label="fragment_gallery"
         tools:layout="@layout/fragment_gallery"/>
 

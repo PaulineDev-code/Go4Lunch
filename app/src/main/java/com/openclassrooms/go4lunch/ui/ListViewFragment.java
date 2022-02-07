@@ -1,4 +1,4 @@
-package com.openclassrooms.go4lunch.ui.bottomfragments;
+package com.openclassrooms.go4lunch.ui;
 
 import android.os.Bundle;
 

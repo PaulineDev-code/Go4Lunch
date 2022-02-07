@@ -1,4 +1,4 @@
-package com.openclassrooms.go4lunch.ui.drawerfragments.home;
+package com.openclassrooms.go4lunch.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

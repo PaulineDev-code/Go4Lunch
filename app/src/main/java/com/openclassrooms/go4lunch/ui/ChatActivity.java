@@ -1,4 +1,4 @@
-package com.openclassrooms.go4lunch.ui.activities;
+package com.openclassrooms.go4lunch.ui;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -15,7 +15,7 @@ import com.openclassrooms.go4lunch.databinding.ActivityChatBinding;
 import com.openclassrooms.go4lunch.models.Message;
 import com.openclassrooms.go4lunch.repositories.ChatRepository;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
-import com.openclassrooms.go4lunch.ui.activities.chat.ChatAdapter;
+import com.openclassrooms.go4lunch.ui.chat.ChatAdapter;
 
 public class ChatActivity extends BaseActivity<ActivityChatBinding> implements ChatAdapter.Listener {
 

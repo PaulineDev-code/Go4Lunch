@@ -1,4 +1,4 @@
-package com.openclassrooms.go4lunch.ui.drawerfragments.home;
+package com.openclassrooms.go4lunch.ui;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

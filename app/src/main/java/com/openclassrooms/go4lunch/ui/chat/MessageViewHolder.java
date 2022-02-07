@@ -1,4 +1,4 @@
-package com.openclassrooms.go4lunch.ui.activities.chat;
+package com.openclassrooms.go4lunch.ui.chat;
 
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;

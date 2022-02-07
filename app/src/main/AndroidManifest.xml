@@ -19,14 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Go4Lunch">
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Go4Lunch.NoActionBar" />
         <activity
-            android:name=".ui.activities.ChatActivity"
+            android:name=".ui.ChatActivity"
             android:label="ChatActivity"
             android:theme="@style/Theme.Go4Lunch.NoActionBar"
-            android:parentActivityName=".ui.activities.MainActivity" />
+            android:parentActivityName=".ui.MainActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,7 +40,7 @@
             android:value="@string/apiKeyP7" />
 
         <activity
-            android:name=".ui.activities.LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true"
             android:theme="@style/AppTheme.NoTitle"> <!-- DISABLE TOOLBAR IN MAIN ACTIVITY -->
             <intent-filter>

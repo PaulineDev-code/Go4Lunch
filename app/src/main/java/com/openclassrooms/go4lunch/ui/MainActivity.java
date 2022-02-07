@@ -1,21 +1,14 @@
-package com.openclassrooms.go4lunch.ui.activities;
+package com.openclassrooms.go4lunch.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -27,10 +20,6 @@ import com.openclassrooms.go4lunch.R;
 
 import com.openclassrooms.go4lunch.databinding.ActivityMain2Binding;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
-import com.openclassrooms.go4lunch.ui.drawerfragments.gallery.GalleryFragment;
-import com.openclassrooms.go4lunch.BuildConfig;
-
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -51,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         userRepository = new UserRepository();
 
-        setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+        setSupportActionBar(binding.appBarMainInclude.toolbar);
+        binding.appBarMainInclude.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startChatActivity();
@@ -105,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;});
 
-        bottomNavigationView = binding.appBarMain.bottomNavigationView;
+        bottomNavigationView = binding.appBarMainInclude.bottomNavigationView;
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
     }
 

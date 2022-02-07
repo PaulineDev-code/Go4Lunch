@@ -1,6 +1,4 @@
-package com.openclassrooms.go4lunch.ui.bottomfragments;
-
-import static android.content.ContentValues.TAG;
+package com.openclassrooms.go4lunch.ui;
 
 import android.location.Location;
 import android.os.Bundle;
@@ -9,8 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,14 +20,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.ServerTimestamp;
 import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.models.RestaurantViewStateItem;
-import com.openclassrooms.go4lunch.models.maprestaurants.Result;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
-import com.openclassrooms.go4lunch.viewmodels.ViewModelSignIn;
 
 import java.util.List;
 
