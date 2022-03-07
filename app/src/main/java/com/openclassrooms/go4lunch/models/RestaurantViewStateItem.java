@@ -16,10 +16,11 @@ public class RestaurantViewStateItem {
     private Location location;
     private List<Photo> photoList;
     private Integer workmates;
+    private Float distance;
 
     public RestaurantViewStateItem(
             String placeId, String name, Double rating, OpeningHours open_now,
-            String vicinity, Location location, List<Photo> photoList, Integer workmates) {
+            String vicinity, Location location, List<Photo> photoList, Integer workmates, Float distance) {
 
         this.placeId = placeId;
         this.name = name;
@@ -29,6 +30,7 @@ public class RestaurantViewStateItem {
         this.location = location;
         this.photoList = photoList;
         this.workmates = workmates;
+        this.distance = distance;
     }
 
     public String getPlaceId() {
@@ -94,4 +96,8 @@ public class RestaurantViewStateItem {
     public void setWorkmates(Integer workmates) {
         this.workmates = workmates;
     }
+
+    public Float getDistance() { return distance; }
+
+    public void setDistance(Float distance) { this.distance = distance; }
 }

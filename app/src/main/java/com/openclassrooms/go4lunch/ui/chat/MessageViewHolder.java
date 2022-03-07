@@ -49,9 +49,6 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         // Update date
         if (message.getDateCreated() != null) binding.dateTextView.setText(this.convertDateToHour(message.getDateCreated()));
 
-        // Update isMentor
-        /*binding.profileIsMentor.setVisibility(message.getUserSender().getIsMentor() ? View.VISIBLE : View.INVISIBLE);*/
-
         // Update profile picture
         if (message.getUserSender().getUrlPicture() != null)
             glide.load(message.getUserSender().getUrlPicture())

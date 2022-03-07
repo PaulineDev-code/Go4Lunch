@@ -14,6 +14,7 @@ public class Location implements Serializable {
     @Expose
     private Double lng;
     private final static long serialVersionUID = -5299537703656356528L;
+    private android.location.Location location;
 
     public Double getLat() {
         return lat;
@@ -30,5 +31,12 @@ public class Location implements Serializable {
     public void setLng(Double lng) {
         this.lng = lng;
     }
+
+    /*public android.location.Location getLocation () {
+        location.setLatitude(getLat());
+        location.setLongitude(getLng());
+
+        return location;
+        }*/
 
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 import android.location.Location;
 
+import com.google.type.LatLng;
 import com.openclassrooms.go4lunch.helpers.CombinedLiveData2;
 import com.openclassrooms.go4lunch.models.RestaurantViewStateItem;
 import com.openclassrooms.go4lunch.models.User;
@@ -80,10 +81,13 @@ public class ViewModelMapView extends ViewModel {
         return locationLiveData;
     }
 
-    public LiveData<List<RestaurantViewStateItem>> getRestaurantItemsLiveData() {
+    public LiveData<List<RestaurantViewStateItem>> getRestaurantItemsLiveData(Location userLocation) {
+        Location restaurantLocation = new Location("");
         return Transformations.map(combinedLiveData2, myPair -> {
             ArrayList<RestaurantViewStateItem> restaurantItems = new ArrayList<>();
             for(Result result : myPair.first ) {
+                restaurantLocation.setLatitude(result.getGeometry().getLocation().getLat());
+                restaurantLocation.setLongitude(result.getGeometry().getLocation().getLng());
                 restaurantItems.add(new RestaurantViewStateItem(
                         result.getPlaceId(),
                         result.getName(),
@@ -92,7 +96,8 @@ public class ViewModelMapView extends ViewModel {
                         result.getVicinity(),
                         result.getGeometry().getLocation(),
                         result.getPhotos(),
-                        computeWorkmatesGoing(result.getPlaceId(), myPair.second)
+                        computeWorkmatesGoing(result.getPlaceId(), myPair.second),
+                        userLocation.distanceTo(restaurantLocation)
                 ));
             }
             return restaurantItems;

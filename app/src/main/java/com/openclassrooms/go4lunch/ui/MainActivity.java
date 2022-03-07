@@ -8,6 +8,8 @@ import android.view.Menu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +22,8 @@ import com.openclassrooms.go4lunch.R;
 
 import com.openclassrooms.go4lunch.databinding.ActivityMain2Binding;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
+import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
+import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private static final String apiKey=BuildConfig.apiKey;
     private UserRepository userRepository;
+    private ViewModelMapView viewModelMapView;
 
 
     @Override
@@ -48,12 +53,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         initDrawerNavigation();
-
-
-
+        /*initViewModel();*/
     }
 
     private void startChatActivity() {
@@ -96,6 +97,14 @@ public class MainActivity extends AppCompatActivity {
 
         bottomNavigationView = binding.appBarMainInclude.bottomNavigationView;
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
+    }
+
+    private void initViewModel() {
+        viewModelMapView = new ViewModelProvider(this).get(ViewModelMapView.class);
+        ActivityCompat.requestPermissions(
+                this,
+                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0
+        );
     }
 
 

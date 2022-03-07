@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,7 +38,6 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
     private Location currentLocation ;
-    private ViewModelFactoryGo4Lunch viewModelFactoryGo4Lunch;
     private ViewModelMapView viewModelMapView;
     private LatLng position ;
     private String userLocation;
@@ -58,12 +58,8 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModelFactoryGo4Lunch = ViewModelFactoryGo4Lunch.getInstance();
-        viewModelMapView = viewModelFactoryGo4Lunch.create(ViewModelMapView.class);
-        ActivityCompat.requestPermissions(
-                requireActivity(),
-                new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0
-        );
+        viewModelMapView = new ViewModelProvider(requireActivity(),
+                ViewModelFactoryGo4Lunch.getInstance()).get(ViewModelMapView.class);
     }
 
 
@@ -93,7 +89,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                 Log.i("géoloc", "startLocationUpdate: "+position);
                 userLocation = position.latitude+","+position.longitude;
                 viewModelMapView.initRestaurantLiveData(userLocation);
-                viewModelMapView.getRestaurantItemsLiveData().observe(getViewLifecycleOwner(), results -> {
+                viewModelMapView.getRestaurantItemsLiveData(loc).observe(getViewLifecycleOwner(), results -> {
                     if(results != null){
                         addMarkers(results);
                     }
