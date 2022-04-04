@@ -33,7 +33,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupListeners();
-        viewModelSignIn = new ViewModelProvider(this, ViewModelFactoryGo4Lunch.getInstance()).get(ViewModelSignIn.class);
+        viewModelSignIn = new ViewModelProvider(this, ViewModelFactoryGo4Lunch.getInstance())
+                .get(ViewModelSignIn.class);
 
 
         /*try {

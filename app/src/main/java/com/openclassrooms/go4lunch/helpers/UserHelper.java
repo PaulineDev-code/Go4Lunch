@@ -70,20 +70,28 @@ public class UserHelper {
         }
     }
 
+    public Task<Void> updateUser(String placeId, String placeName) {
+        FirebaseUser user = getCurrentUser();
+        if (user != null) {
+            return FirebaseFirestore.getInstance().collection("users")
+                    .document(user.getUid()).update("nextLunchRestaurantId", placeId,
+                            "nextLunchRestaurantName", placeName);
+        } else {
+            return null;
+        }
+    }
+
     // Get User Data from Firestore
     public Task<DocumentSnapshot> getUserData() {
         String uid = this.getCurrentUser().getUid();
 
-        return this.getUsersCollection().document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull @NotNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "onComplete: You got the doc!");
-                } else {
-                    String errorMessage = Objects.requireNonNull(task.getException()).getMessage();
-                    /*Log.e(TAG, "onComplete: fail getting document" + errorMessage, Exception)*/
-                    Log.d(TAG, "onComplete: failed to get document" + errorMessage);
-                }
+        return this.getUsersCollection().document(uid).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "onComplete: You got the doc!");
+            } else {
+                String errorMessage = Objects.requireNonNull(task.getException()).getMessage();
+                /*Log.e(TAG, "onComplete: fail getting document" + errorMessage, Exception)*/
+                Log.d(TAG, "onComplete: failed to get document" + errorMessage);
             }
         });
 
@@ -93,7 +101,8 @@ public class UserHelper {
     public Task<QuerySnapshot> getAllWorkmates() {
 
         return getUsersCollection().whereNotEqualTo(
-                "uid", getCurrentUser().getUid()).get().addOnCompleteListener(
+                "uid", Objects.requireNonNull(getCurrentUser()).getUid()).get()
+                .addOnCompleteListener(
                     task -> {
                         if(task.isSuccessful()) { task.getResult(); }
                     }

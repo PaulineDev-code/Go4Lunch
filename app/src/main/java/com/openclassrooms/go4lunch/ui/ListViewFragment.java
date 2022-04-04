@@ -13,13 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.databinding.FragmentListViewBinding;
-import com.openclassrooms.go4lunch.databinding.FragmentWorkmatesBinding;
 import com.openclassrooms.go4lunch.models.User;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
-import com.openclassrooms.go4lunch.viewmodels.ViewModelWorkmates;
 
 import java.util.List;
 
@@ -36,7 +33,7 @@ public class ListViewFragment extends Fragment {
     private RecyclerView recyclerViewRestaurants;
     @NonNull
     private List<User> listWorkmates;
-    private ListAdapter adapter;
+    private ListViewAdapter adapter;
 
     public ListViewFragment() {
         // Required empty public constructor
@@ -80,7 +77,7 @@ public class ListViewFragment extends Fragment {
         Location userLoc = viewModelMapView.getLocationLiveData().getValue();
         viewModelMapView.getRestaurantItemsLiveData(userLoc).observe(getViewLifecycleOwner(), results -> {
             if (results != null) {
-                binding.restaurantsRv.setAdapter(new ListAdapter(results, requireContext()));
+                binding.restaurantsRv.setAdapter(new ListViewAdapter(results, requireContext()));
                 recyclerViewRestaurants.addItemDecoration(new DividerItemDecoration(
                         recyclerViewRestaurants.getContext(), DividerItemDecoration.VERTICAL));
             }

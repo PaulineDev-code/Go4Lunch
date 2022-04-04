@@ -1,51 +1,44 @@
 package com.openclassrooms.go4lunch.ui;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
+import android.content.Intent;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.go4lunch.BuildConfig;
 import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.databinding.RestaurantsListItemBinding;
-import com.openclassrooms.go4lunch.databinding.WorkmatesItemBinding;
 import com.openclassrooms.go4lunch.models.RestaurantViewStateItem;
-import com.openclassrooms.go4lunch.models.User;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
-import java.util.Locale;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> {
+public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.MyRestaurantViewHolder> {
 
     private List<RestaurantViewStateItem> mRestaurants;
     private final Context context;
 
 
-    public ListAdapter(List<RestaurantViewStateItem> items, Context context) {
+    public ListViewAdapter(List<RestaurantViewStateItem> items, Context context) {
         this.mRestaurants = items;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public ListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ListAdapter.MyViewHolder(RestaurantsListItemBinding.inflate(LayoutInflater.from(context),
+    public MyRestaurantViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MyRestaurantViewHolder(RestaurantsListItemBinding.inflate(LayoutInflater.from(context),
                 parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyRestaurantViewHolder holder, int position) {
         RestaurantViewStateItem restaurant = mRestaurants.get(position);
 
         //Display restaurant's avatar
@@ -56,10 +49,22 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
                 +"&key="+ BuildConfig.apiKey)
                 .into(holder.binding.restaurantItemAvatar);}
 
-        //Display restaurant's name, address & rating
+        //Display restaurant's name and address
         holder.binding.restaurantItemName.setText(restaurant.getName());
         holder.binding.restaurantItemAddress.setText(restaurant.getVicinity());
+
+        //Display restaurant's rating
+        if(restaurant.getRating() != null) {
         holder.binding.restaurantItemRatingBar.setRating(restaurant.getRating().floatValue()*3/5);
+            LayerDrawable layerDrawable =
+                    (LayerDrawable) holder.binding.restaurantItemRatingBar.getProgressDrawable();
+            DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(0)),
+                    context.getResources().getColor(R.color.grey_light));
+            DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(1)),
+                    context.getResources().getColor(R.color.yellow_dusk));
+            DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(2)),
+                    context.getResources().getColor(R.color.yellow_dusk));}
+        else { holder.binding.restaurantItemRatingBar.setVisibility(View.INVISIBLE);}
 
         //Display workmates going to the restaurant
         if(restaurant.getWorkmates() != null && restaurant.getWorkmates() != 0) {
@@ -68,17 +73,30 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
         else { holder.binding.restaurantItemWorkmatesGoing.setVisibility(View.INVISIBLE); }
 
         //Display Open/Close status
-        if(restaurant.getOpen_now() == "Ouvert"){
+        if(restaurant.getOpen_now().equals("Ouvert")){
             holder.binding.restaurantItemOpeningHours.setText(R.string.restaurant_open);
+            holder.binding.restaurantItemOpeningHours.setTextColor
+                    (context.getResources().getColor(R.color.green));
         }
-        else if(restaurant.getOpen_now() == "Fermé") {
+        else if(restaurant.getOpen_now().equals("Fermé")) {
             holder.binding.restaurantItemOpeningHours.setText(R.string.restaurant_closed);
-            holder.binding.restaurantItemOpeningHours.setTextColor(context.getResources().getColor(R.color.red));
+            holder.binding.restaurantItemOpeningHours.setTextColor
+                    (context.getResources().getColor(R.color.red));
         }
-        else { holder.binding.restaurantItemOpeningHours.setText(R.string.restaurant_no_hours_info);}
+        else { holder.binding.restaurantItemOpeningHours.setText(R.string.restaurant_no_hours_info);
+            holder.binding.restaurantItemOpeningHours.setTextColor
+                    (context.getResources().getColor(R.color.grey));
+        }
 
         //Display distance between user and restaurant
         holder.binding.restaurantItemDistance.setText(restaurant.getDistance().intValue()+"m");
+
+        //Open DetailsActivity when an item is clicked
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+            intent.putExtra("restaurant_id", restaurant.getPlaceId());
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -96,11 +114,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.MyViewHolder> 
         notifyDataSetChanged();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyRestaurantViewHolder extends RecyclerView.ViewHolder {
 
         private final RestaurantsListItemBinding binding;
 
-        public MyViewHolder(RestaurantsListItemBinding binding){
+        public MyRestaurantViewHolder(RestaurantsListItemBinding binding){
             super(binding.getRoot());
             this.binding = binding;
         }

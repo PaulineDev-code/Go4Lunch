@@ -51,6 +51,9 @@ public class UserRepository {
         userHelper.createUser();
     }
 
+    public Task<Void> updateUserRestaurant(String placeId, String placeName) {
+        return userHelper.updateUser(placeId, placeName);
+    }
 
     public Task<User> getUserData(){
         // Get the user from Firestore and cast it to a User model Object

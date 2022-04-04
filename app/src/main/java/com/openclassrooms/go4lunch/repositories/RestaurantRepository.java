@@ -29,7 +29,7 @@ public class RestaurantRepository {
         ApiInterface apiInterface = RetrofitService.getInterface();
         if(location != null){
             Call<PlacesPOJO> nearbyRestaurants = apiInterface.getNearbyPlaces(
-                    location, 1500, TYPE_KEYWORD, BuildConfig.apiKey
+                    location,  TYPE_KEYWORD, BuildConfig.apiKey
             );
             getNearbyRestaurants.setValue(new ArrayList<>());
             nearbyRestaurants.enqueue(new Callback<PlacesPOJO>() {

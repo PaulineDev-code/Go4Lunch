@@ -23,6 +23,11 @@
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Go4Lunch.NoActionBar" />
         <activity
+            android:name=".ui.DetailsActivity"
+            android:label="DetailsActivity"
+            android:theme="@style/Theme.Go4Lunch.NoActionBar"
+            android:parentActivityName=".ui.MainActivity"/>
+        <activity
             android:name=".ui.ChatActivity"
             android:label="ChatActivity"
             android:theme="@style/Theme.Go4Lunch.NoActionBar"

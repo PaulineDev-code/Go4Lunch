@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.location.LocationServices;
+import com.openclassrooms.go4lunch.repositories.DetailsRepository;
 import com.openclassrooms.go4lunch.repositories.LocationRepository;
 import com.openclassrooms.go4lunch.repositories.RestaurantRepository;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
 import com.openclassrooms.go4lunch.utils.MainApplication;
 import com.openclassrooms.go4lunch.utils.PermissionChecker;
+import com.openclassrooms.go4lunch.viewmodels.ViewModelDetails;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelSignIn;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelWorkmates;
@@ -30,6 +32,9 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
 
     @NonNull
     private final  RestaurantRepository restaurantRepository = new RestaurantRepository();
+
+    @NonNull
+    private final DetailsRepository detailsRepository = new DetailsRepository();
 
 
 
@@ -85,6 +90,9 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
         }
         else if (modelClass.isAssignableFrom(ViewModelWorkmates.class)){
             return (T) new ViewModelWorkmates(userRepository);
+        }
+        else if (modelClass.isAssignableFrom(ViewModelDetails.class)){
+            return (T) new ViewModelDetails(detailsRepository, userRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class" + modelClass);
     }
