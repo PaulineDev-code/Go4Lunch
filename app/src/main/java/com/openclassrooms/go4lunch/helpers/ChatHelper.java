@@ -40,13 +40,12 @@ public class ChatHelper {
     //Create a new message
     public void createMessageForChat(String textMessage){
 
-        userRepository.getUserData().addOnSuccessListener(user -> {
             // Create the Message object
-            String username = user.getName();
+            User user = CurrentUserSingleton.getInstance().getUser();
             Message message = new Message(textMessage, user);
 
             // Store Message to Firestore
             ChatHelper.this.getMessageCollection().add(message);
-        });
+
     }
 }

@@ -22,7 +22,6 @@ import com.openclassrooms.go4lunch.R;
 
 import com.openclassrooms.go4lunch.databinding.ActivityMain2Binding;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
-import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
 
 
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         initDrawerNavigation();
-        /*initViewModel();*/
+        initViewModel();
     }
 
     private void startChatActivity() {
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 R.id.mapViewFragment, R.id.listViewFragment, R.id.workmatesFragment).setDrawerLayout(drawer)
                 .build();
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main2);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }

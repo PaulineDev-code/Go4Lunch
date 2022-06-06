@@ -52,6 +52,11 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> implements C
 
         if (canSendMessage){
             // Create a new message for the chat
+            // Detection for gif and load url in UrlImage
+            if(binding.chatEditText.getText().toString().contains("media.tenor.com/images")) {
+                Message message = new Message();
+                message.setUrlImage(binding.chatEditText.getText().toString());
+            }
             chatRepository.createMessageForChat(binding.chatEditText.getText().toString());
             // Reset text field
             binding.chatEditText.setText("");

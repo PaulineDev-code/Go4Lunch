@@ -15,6 +15,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/details_infos_constraint_lyt"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/details_choice_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        app:tint="@color/orange_hard"
+        android:layout_marginEnd="32dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="@id/details_infos_constraint_lyt"
+        app:layout_constraintBottom_toTopOf="@id/details_infos_constraint_lyt"
+        app:layout_constraintEnd_toEndOf="@id/restaurant_details_picture" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/details_infos_constraint_lyt"
         android:layout_width="match_parent"
@@ -28,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
+            android:maxLines="2"
             android:textStyle="bold"
             android:textColor="@color/white"
             app:layout_constraintStart_toStartOf="parent"

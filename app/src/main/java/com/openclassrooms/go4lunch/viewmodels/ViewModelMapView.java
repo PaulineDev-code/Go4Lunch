@@ -85,20 +85,22 @@ public class ViewModelMapView extends ViewModel {
         Location restaurantLocation = new Location("");
         return Transformations.map(combinedLiveData2, myPair -> {
             ArrayList<RestaurantViewStateItem> restaurantItems = new ArrayList<>();
-            for(Result result : myPair.first ) {
-                restaurantLocation.setLatitude(result.getGeometry().getLocation().getLat());
-                restaurantLocation.setLongitude(result.getGeometry().getLocation().getLng());
-                restaurantItems.add(new RestaurantViewStateItem(
-                        result.getPlaceId(),
-                        result.getName(),
-                        result.getRating(),
-                        result.getOpeningHours(),
-                        result.getVicinity(),
-                        result.getGeometry().getLocation(),
-                        result.getPhotos(),
-                        computeWorkmatesGoing(result.getPlaceId(), myPair.second),
-                        userLocation.distanceTo(restaurantLocation)
-                ));
+            if(myPair.first != null && myPair.second != null) {
+                for (Result result : myPair.first) {
+                    restaurantLocation.setLatitude(result.getGeometry().getLocation().getLat());
+                    restaurantLocation.setLongitude(result.getGeometry().getLocation().getLng());
+                    restaurantItems.add(new RestaurantViewStateItem(
+                            result.getPlaceId(),
+                            result.getName(),
+                            result.getRating(),
+                            result.getOpeningHours(),
+                            result.getVicinity(),
+                            result.getGeometry().getLocation(),
+                            result.getPhotos(),
+                            computeWorkmatesGoing(result.getPlaceId(), myPair.second),
+                            userLocation.distanceTo(restaurantLocation)
+                    ));
+                }
             }
             return restaurantItems;
         });

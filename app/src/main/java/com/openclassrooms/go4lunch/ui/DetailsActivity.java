@@ -1,15 +1,14 @@
 package com.openclassrooms.go4lunch.ui;
 
 import android.content.Intent;
-import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.openclassrooms.go4lunch.BuildConfig;
 import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.databinding.ActivityDetailsBinding;
+import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
+import com.openclassrooms.go4lunch.models.User;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelDetails;
 
@@ -26,6 +27,8 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
     private String restaurantId;
     private ViewModelDetails viewModelDetails;
     private RecyclerView recyclerViewDetails;
+    private CurrentUserSingleton userSingleton;
+    private User user;
 
     @Override
     ActivityDetailsBinding getViewBinding() {
@@ -46,6 +49,18 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
             restaurantId = (String) savedInstanceState.getSerializable("restaurant_id");
         }
 
+        userSingleton = CurrentUserSingleton.getInstance();
+        user = userSingleton.getUser();
+        if(user != null){
+            if(user.getNextLunchRestaurantId() == null || !user.getNextLunchRestaurantId().equals(restaurantId)) {
+                binding.detailsChoiceButton.setImageResource(R.drawable.ic_baseline_add_24);
+                binding.detailsChoiceButton.setColorFilter(R.color.orange_hard);
+            } else if(user.getNextLunchRestaurantId().equals(restaurantId)){
+                binding.detailsChoiceButton.setImageResource(R.drawable.ic_baseline_check_circle_24);
+                binding.detailsChoiceButton.setColorFilter(R.color.green_light);
+            }
+        }
+
         viewModelDetails = new ViewModelProvider(this, ViewModelFactoryGo4Lunch.getInstance())
                 .get(ViewModelDetails.class);
         viewModelDetails.initDetailsLiveData(restaurantId);
@@ -60,18 +75,13 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
                             .apply(new RequestOptions().centerCrop())
 */
                             .into(binding.restaurantDetailsPicture);}
+                else if(results.getPhotoList() == null) {
+                    binding.restaurantDetailsPicture.setImageResource(R.drawable.ic_baseline_no_photography_24);
+                }
                 binding.restaurantDetailsName.setText(results.getName());
                 binding.restaurantDetailsAddress.setText(results.getAddress());
                 if(results.getRating() != null) {
                     binding.restaurantDetailsRatingBar.setRating(results.getRating().floatValue()*3/5);
-                    LayerDrawable layerDrawable =
-                            (LayerDrawable) binding.restaurantDetailsRatingBar.getProgressDrawable();
-                    DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(0)),
-                            getResources().getColor(R.color.grey_light));
-                    DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(1)),
-                            getResources().getColor(R.color.yellow_dusk));
-                    DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(2)),
-                            getResources().getColor(R.color.yellow_dusk));
                 }
                 else { binding.restaurantDetailsRatingBar.setVisibility(View.INVISIBLE);}
                 binding.restaurantDetailsPhone.setOnClickListener(v -> {
@@ -90,6 +100,17 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
                         startActivity(openURL);
                     }
                 });
+                binding.detailsChoiceButton.setOnClickListener( v -> {
+                    if(user != null) {
+                        if(user.getNextLunchRestaurantId() == null) {
+                            changeChosenRestaurant(results.getPlaceId(), results.getName());
+                            binding.detailsChoiceButton.setImageResource(R.drawable.ic_baseline_check_circle_24);
+                        } else if(user.getNextLunchRestaurantId().equals(restaurantId)){
+                            changeChosenRestaurant(null, null);
+                            binding.detailsChoiceButton.setImageResource(R.drawable.ic_baseline_add_24);
+                        }
+                    }
+                });
                 recyclerViewDetails = binding.restaurantDetailsWorkmatesRv;
                 recyclerViewDetails.setAdapter(new DetailsListAdapter(
                         results.getListWorkmatesGoing(), DetailsActivity.this));
@@ -97,6 +118,13 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
                         recyclerViewDetails.getContext(), DividerItemDecoration.VERTICAL));
             }
         });
+    }
+
+    private void changeChosenRestaurant(String Id, String Name) {
+        user.setNextLunchRestaurantId(Id);
+        user.setNextLunchRestaurantName(Name);
+        userSingleton.setUser(user);
+        viewModelDetails.updateChosenRestaurant(Id, Name);
     }
 
 }

@@ -56,19 +56,13 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.MyRest
         //Display restaurant's rating
         if(restaurant.getRating() != null) {
         holder.binding.restaurantItemRatingBar.setRating(restaurant.getRating().floatValue()*3/5);
-            LayerDrawable layerDrawable =
-                    (LayerDrawable) holder.binding.restaurantItemRatingBar.getProgressDrawable();
-            DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(0)),
-                    context.getResources().getColor(R.color.grey_light));
-            DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(1)),
-                    context.getResources().getColor(R.color.yellow_dusk));
-            DrawableCompat.setTint(DrawableCompat.wrap(layerDrawable.getDrawable(2)),
-                    context.getResources().getColor(R.color.yellow_dusk));}
+            }
         else { holder.binding.restaurantItemRatingBar.setVisibility(View.INVISIBLE);}
 
         //Display workmates going to the restaurant
         if(restaurant.getWorkmates() != null && restaurant.getWorkmates() != 0) {
-            holder.binding.restaurantItemWorkmatesGoing.setText(restaurant.getWorkmates());
+            String nbWorkmates = ""+restaurant.getWorkmates();
+            holder.binding.restaurantItemWorkmatesGoing.setText(nbWorkmates);
         }
         else { holder.binding.restaurantItemWorkmatesGoing.setVisibility(View.INVISIBLE); }
 

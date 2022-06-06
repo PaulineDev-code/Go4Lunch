@@ -1,26 +1,18 @@
 package com.openclassrooms.go4lunch.repositories;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
 import com.openclassrooms.go4lunch.helpers.UserHelper;
 import com.openclassrooms.go4lunch.models.User;
 
@@ -35,7 +27,10 @@ public class UserRepository {
 
     private final UserHelper userHelper = UserHelper.getInstance();
     private static UserRepository USER_REPOSITORY;
+    private final MutableLiveData<User> createNewUser = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> getExistingUser = new MutableLiveData<>();
     private final MutableLiveData<List<User>> getAllWorkmates = new MutableLiveData<>();
+    private final MutableLiveData<List<User>> workmatesForRestaurant = new MutableLiveData<>();
 
     //Instance of Repository
     public static UserRepository getInstance() {
@@ -47,39 +42,59 @@ public class UserRepository {
 
 
     // Create User in Firestore
-    public void createUser() {
-        userHelper.createUser();
+    public MutableLiveData<Boolean> createNewUser() {
+        return userHelper.createUser();
     }
 
-    public Task<Void> updateUserRestaurant(String placeId, String placeName) {
-        return userHelper.updateUser(placeId, placeName);
-    }
-
-    public Task<User> getUserData(){
+    public MutableLiveData<Boolean> getUser(){
         // Get the user from Firestore and cast it to a User model Object
-        return userHelper.getUserData().continueWith(new Continuation<DocumentSnapshot, User>() {
-            @Override
-            public User then(@NonNull @NotNull Task<DocumentSnapshot> task) throws Exception {
-                return Objects.requireNonNull(task.getResult()).toObject(User.class);
+        userHelper.getUserData().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                if(task.getResult().exists()) {
+                    CurrentUserSingleton.getInstance().setUser(task.getResult().toObject(User.class));
+                    getExistingUser.postValue(true);
+                } else {
+                    LiveData<Boolean> bool = userHelper.createUser();
+                    if(bool.getValue() != null) {
+                        getExistingUser.postValue(bool.getValue());
+                    }
+                }
+            } else if(!task.isSuccessful()) {
+                getExistingUser.postValue(false);
             }
         });
+        return getExistingUser;
     }
 
     //Get the list of users without the current user
     public MutableLiveData<List<User>> getWorkmates(){
-        userHelper.getAllWorkmates().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    ArrayList<User> users = new ArrayList<>();
-                    for( QueryDocumentSnapshot document : task.getResult()){
-                        users.add(document.toObject(User.class));
-                    }
-                    getAllWorkmates.postValue(users);
+        userHelper.getAllWorkmates().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                ArrayList<User> users = new ArrayList<>();
+                for( QueryDocumentSnapshot document : task.getResult()){
+                    users.add(document.toObject(User.class));
                 }
+                getAllWorkmates.postValue(users);
             }
         });
         return getAllWorkmates;
+    }
+
+    public MutableLiveData<List<User>> getWorkmatesForRestaurant(String placeId) {
+        userHelper.getWorkmatesForRestaurant(placeId).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                ArrayList<User> workmates = new ArrayList<>();
+                for( QueryDocumentSnapshot document : task.getResult()) {
+                    workmates.add(document.toObject(User.class));
+                }
+                workmatesForRestaurant.postValue(workmates);
+            }
+        });
+        return workmatesForRestaurant;
+    }
+
+    public Task<Void> updateUserRestaurant(String placeId, String placeName) {
+        return userHelper.updateUser(placeId, placeName);
     }
 
     @Nullable

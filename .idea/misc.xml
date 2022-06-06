@@ -3,12 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/button_radius_primary_color.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/drawable/custom_circle_50dp.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_24_2.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/drawable/ic_baseline_check_circle_24.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/drawable/ic_baseline_no_photography_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_people_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_public_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_star_rate_24.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/drawable/ic_chat_message_background.xml" value="0.18072916666666666" />
+        <entry key="app/src/main/res/layout/activity_chat.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/activity_details.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.16510416666666666" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.16770833333333332" />
@@ -19,6 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_list_view.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/fragment_map_view.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/fragment_workmates.xml" value="0.19159269798410916" />
+        <entry key="app/src/main/res/layout/item_chat.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/restaurants_list_item.xml" value="0.23731159634554314" />
         <entry key="app/src/main/res/layout/workmates_item.xml" value="0.18550557855253172" />

@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.tasks.Task;
 import com.openclassrooms.go4lunch.helpers.CombinedLiveData2;
 import com.openclassrooms.go4lunch.models.DetailsViewStateItem;
 import com.openclassrooms.go4lunch.models.User;
@@ -21,16 +22,11 @@ public class ViewModelDetails extends ViewModel {
 
     private final DetailsRepository detailsRepository;
     private final UserRepository userRepository;
-    private final CombinedLiveData2<ResultDetails, List<User>> combinedLiveData2;
 
     public ViewModelDetails(@NonNull DetailsRepository detailsRepository,
                             @NonNull UserRepository userRepository) {
         this.detailsRepository = detailsRepository;
         this.userRepository = userRepository;
-
-        LiveData<ResultDetails> detailsLiveData = detailsRepository.getRestaurantDetailsResults();
-        LiveData<List<User>> workmatesGoingLiveData = userRepository.getWorkmates();
-        combinedLiveData2 = new CombinedLiveData2<>(detailsLiveData, workmatesGoingLiveData);
 
     }
 
@@ -39,16 +35,17 @@ public class ViewModelDetails extends ViewModel {
     }
 
     public LiveData<DetailsViewStateItem> getDetailsViewStateItem(String placeId) {
-        Location detailsLocation = new Location("");
+        LiveData<ResultDetails> detailsLiveData = detailsRepository.getRestaurantDetails(placeId);
+        LiveData<List<User>> workmatesGoingLiveData = userRepository.getWorkmatesForRestaurant(
+                placeId);
+        CombinedLiveData2<ResultDetails, List<User>> combinedLiveData2 = new CombinedLiveData2<>(
+                detailsLiveData, workmatesGoingLiveData);
         return Transformations.map(combinedLiveData2, myPair -> {
             if(myPair.first != null && myPair.second != null) {
-                detailsLocation.setLatitude(myPair.first.getGeometry().getLocation().getLat());
-                detailsLocation.setLongitude(myPair.first.getGeometry().getLocation().getLng());
                 return new DetailsViewStateItem(
                         myPair.first.getName(),
                         myPair.first.getPlaceId(),
                         myPair.first.getFormattedAddress(),
-                        detailsLocation,
                         myPair.first.getPhotos(),
                         myPair.first.getRating(),
                         myPair.first.getVicinity(),
@@ -70,6 +67,10 @@ public class ViewModelDetails extends ViewModel {
             }
         }
         return listWorkmatesGoing;
+    }
+
+    public Task<Void> updateChosenRestaurant(String restaurantId, String restaurantName) {
+        return userRepository.updateUserRestaurant(restaurantId, restaurantName);
     }
 
 

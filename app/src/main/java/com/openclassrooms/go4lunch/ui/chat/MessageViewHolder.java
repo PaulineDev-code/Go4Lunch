@@ -36,8 +36,8 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         binding = ItemChatBinding.bind(itemView);
 
         // Setup default colors
-        colorCurrentUser = ContextCompat.getColor(itemView.getContext(), R.color.colorAccent);
-        colorRemoteUser = ContextCompat.getColor(itemView.getContext(), R.color.colorPrimary);
+        colorCurrentUser = ContextCompat.getColor(itemView.getContext(), R.color.pink_light);
+        colorRemoteUser = ContextCompat.getColor(itemView.getContext(), R.color.blue_light);
     }
 
     public void updateWithMessage(Message message, RequestManager glide){

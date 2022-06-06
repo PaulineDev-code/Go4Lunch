@@ -48,8 +48,4 @@ public class DetailsRepository {
         return restaurantDetailsResults;
     }
 
-    public MutableLiveData<ResultDetails> getRestaurantDetailsResults() {
-        return restaurantDetailsResults;
-    }
-
 }

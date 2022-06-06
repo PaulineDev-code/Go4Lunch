@@ -1,7 +1,5 @@
 package com.openclassrooms.go4lunch.models;
 
-import android.location.Location;
-
 import com.openclassrooms.go4lunch.models.maprestaurants.Photo;
 import com.openclassrooms.go4lunch.models.restaurantdetails.OpeningHours;
 import com.openclassrooms.go4lunch.models.restaurantdetails.ResultDetails;
@@ -12,7 +10,6 @@ public class DetailsViewStateItem {
     private String name;
     private String placeId;
     private String address;
-    private Location location;
     private List<Photo> photoList;
     private Double rating;
     private String vicinity;
@@ -22,14 +19,13 @@ public class DetailsViewStateItem {
     private List<User> listWorkmatesGoing;
 
     public DetailsViewStateItem(
-            String name, String placeId, String address, Location location, List<Photo> photoList,
+            String name, String placeId, String address, List<Photo> photoList,
             Double rating, String vicinity, OpeningHours openingHours, String website,
             String phoneNumber, List<User> listWorkmatesGoing) {
 
         this.name = name;
         this.placeId = placeId;
         this.address = address;
-        this.location = location;
         this.photoList = photoList;
         this.rating = rating;
         this.vicinity = vicinity;
@@ -50,10 +46,6 @@ public class DetailsViewStateItem {
     public String getAddress() { return address; }
 
     public void setAddress(String address) { this.address = address; }
-
-    public Location getLocation() { return location; }
-
-    public void setLocation(Location location) { this.location = location; }
 
     public List<Photo> getPhotoList() { return photoList; }
 

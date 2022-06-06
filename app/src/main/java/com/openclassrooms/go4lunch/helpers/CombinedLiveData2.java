@@ -22,18 +22,20 @@ public class CombinedLiveData2<A, B> extends MediatorLiveData<Pair<A, B>> {
         addSource(ld1, (a) -> {
             if(a != null) {
                 this.a = a;
-                /*if(b != null) {
-
-                }*/
+                if(b != null) {
+                    setValue(Pair.create(a, b));
+                }
             }
-            setValue(Pair.create(a, b));
+
         });
 
         addSource(ld2, (b) -> {
             if(b != null) {
                 this.b = b;
+                if(a != null) {
+                    setValue(Pair.create(a, b));
+                }
             }
-            setValue(Pair.create(a, b));
         });
     }
     /*private List<RestaurantViewStateItem> combineData (

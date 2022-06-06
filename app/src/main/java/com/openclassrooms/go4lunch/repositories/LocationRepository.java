@@ -15,6 +15,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.tasks.OnFailureListener;
 
 public class LocationRepository {
     private static final int LOCATION_REQUEST_INTERVAL_MS = 10_000;
@@ -50,7 +51,7 @@ public class LocationRepository {
             };
         }
 
-        fusedLocationProviderClient.removeLocationUpdates(callback);
+        /*fusedLocationProviderClient.removeLocationUpdates(callback);*/
 
         fusedLocationProviderClient.requestLocationUpdates(
                 LocationRequest.create()
@@ -59,7 +60,12 @@ public class LocationRepository {
                         .setInterval(LOCATION_REQUEST_INTERVAL_MS),
                 callback,
                 Looper.getMainLooper()
-        );
+        ).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e("", e.getMessage());
+            }
+        });
     }
 
     public void stopLocationRequest() {
