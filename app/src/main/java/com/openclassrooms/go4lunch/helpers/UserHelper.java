@@ -2,13 +2,10 @@ package com.openclassrooms.go4lunch.helpers;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
 import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,8 +13,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.openclassrooms.go4lunch.models.DetailsViewStateItem;
 import com.openclassrooms.go4lunch.models.User;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class UserHelper {
@@ -49,7 +48,8 @@ public class UserHelper {
         String username = user.getDisplayName();
         String uid = user.getUid();
 
-        User userToCreate = new User(uid, username, userEmail, urlPicture, null, null);
+        User userToCreate = new User(uid, username, userEmail, urlPicture, null,
+                null, new ArrayList<>());
         getUsersCollection().document(uid).set(userToCreate).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 CurrentUserSingleton.getInstance().setUser(userToCreate);
@@ -72,6 +72,14 @@ public class UserHelper {
         } else {
             return null;
         }
+    }
+
+    public Task<Void> updateLikedRestaurant(ArrayList<DetailsViewStateItem> restaurantsLiked) {
+        User user = CurrentUserSingleton.getInstance().getUser();
+        if(user != null){
+            return FirebaseFirestore.getInstance().collection("users")
+                    .document(user.getUid()).update("likedRestaurants", restaurantsLiked);
+        } else {return null;}
     }
 
 

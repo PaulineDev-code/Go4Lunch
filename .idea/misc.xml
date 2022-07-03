@@ -14,6 +14,8 @@
         <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_phone_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_public_24.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.18385416666666668" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star_purple500_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_baseline_star_rate_24.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/drawable/ic_chat_message_background.xml" value="0.18072916666666666" />
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.16458333333333333" />
@@ -31,6 +33,7 @@
         <entry key="app/src/main/res/layout/nav_header_main.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/restaurants_list_item.xml" value="0.23731159634554314" />
         <entry key="app/src/main/res/layout/workmates_item.xml" value="0.18550557855253172" />
+        <entry key="app/src/main/res/menu/main.xml" value="0.16770833333333332" />
       </map>
     </option>
   </component>

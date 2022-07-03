@@ -73,5 +73,9 @@ public class ViewModelDetails extends ViewModel {
         return userRepository.updateUserRestaurant(restaurantId, restaurantName);
     }
 
+    public Task<Void> updateLikedRestaurants(ArrayList<DetailsViewStateItem> restaurantsLiked) {
+        return userRepository.updateLikedRestaurants(restaurantsLiked);
+    }
+
 
 }

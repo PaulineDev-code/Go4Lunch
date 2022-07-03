@@ -1,13 +1,24 @@
 package com.openclassrooms.go4lunch.ui;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -24,6 +35,10 @@ import com.openclassrooms.go4lunch.databinding.ActivityMain2Binding;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String apiKey=BuildConfig.apiKey;
     private UserRepository userRepository;
     private ViewModelMapView viewModelMapView;
+    private static int AUTOCOMPLETE_REQUEST_CODE = 1;
 
 
     @Override
@@ -43,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         userRepository = new UserRepository();
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), BuildConfig.apiKey, Locale.FRANCE);
+        }
 
         setSupportActionBar(binding.appBarMainInclude.toolbar);
         binding.appBarMainInclude.fab.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         initDrawerNavigation();
         initViewModel();
+        initAutoCompleteSearch();
     }
 
     private void startChatActivity() {
@@ -106,6 +126,17 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    private void initAutoCompleteSearch() {
+        binding.appBarMainInclude.toolbar.setOnClickListener(listener ->{
+            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+            Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                    .build(this);
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+        });
+
+
+    }
+
 
     /*public void loadFragment(Fragment fragment) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -133,5 +164,23 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

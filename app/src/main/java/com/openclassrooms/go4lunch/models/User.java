@@ -1,6 +1,10 @@
 package com.openclassrooms.go4lunch.models;
 
+import android.telecom.Call;
+
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
 
 public class User {
 
@@ -11,15 +15,17 @@ public class User {
     private String nextLunchRestaurantName;
     @Nullable
     String urlPicture;
+    private ArrayList<DetailsViewStateItem> likedRestaurants;
 
     public User(String uid, String name, String email, @Nullable String urlPicture,
-                String nextLunchRestaurantId, String nextLunchRestaurantName){
+                String nextLunchRestaurantId, String nextLunchRestaurantName, ArrayList<DetailsViewStateItem> likedRestaurants){
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.urlPicture = urlPicture;
         this.nextLunchRestaurantId = null;
         this.nextLunchRestaurantName = null;
+        this.likedRestaurants = null;
     }
 
     public User() {
@@ -41,6 +47,7 @@ public class User {
     public String getUrlPicture() {
         return urlPicture;
     }
+    public ArrayList<DetailsViewStateItem> getLikedRestaurants() {return likedRestaurants;}
 
     // --- SETTERS ---
     public void setUid(String uid) {
@@ -60,6 +67,9 @@ public class User {
     }
     public void setUrlPicture(@Nullable String urlPicture) {
         this.urlPicture = urlPicture;
+    }
+    public void setLikedRestaurants(ArrayList<DetailsViewStateItem> likedRestaurants) {
+        this.likedRestaurants = likedRestaurants;
     }
 
 

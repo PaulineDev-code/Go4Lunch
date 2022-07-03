@@ -75,7 +75,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:11.0.0'
 
     // GOOGLE PLACES
-    implementation 'com.google.android.libraries.places:places:2.5.0'
+    implementation 'com.google.android.libraries.places:places:2.6.0'
 
     // EASY PERMISSIONS
     implementation 'pub.devrel:easypermissions:3.0.0'

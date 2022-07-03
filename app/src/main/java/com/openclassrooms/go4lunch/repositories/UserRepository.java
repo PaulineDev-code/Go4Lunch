@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -14,6 +15,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
 import com.openclassrooms.go4lunch.helpers.UserHelper;
+import com.openclassrooms.go4lunch.models.DetailsViewStateItem;
 import com.openclassrooms.go4lunch.models.User;
 
 import org.jetbrains.annotations.NotNull;
@@ -54,10 +56,11 @@ public class UserRepository {
                     CurrentUserSingleton.getInstance().setUser(task.getResult().toObject(User.class));
                     getExistingUser.postValue(true);
                 } else {
-                    LiveData<Boolean> bool = userHelper.createUser();
-                    if(bool.getValue() != null) {
-                        getExistingUser.postValue(bool.getValue());
-                    }
+                    MutableLiveData<Boolean> createUserLiveData = userHelper.createUser();
+                    Transformations.map(createUserLiveData ,getBoolean -> {
+                        getExistingUser.postValue(getBoolean);
+                        return getExistingUser;
+                    });
                 }
             } else if(!task.isSuccessful()) {
                 getExistingUser.postValue(false);
@@ -95,6 +98,10 @@ public class UserRepository {
 
     public Task<Void> updateUserRestaurant(String placeId, String placeName) {
         return userHelper.updateUser(placeId, placeName);
+    }
+
+    public Task<Void> updateLikedRestaurants(ArrayList<DetailsViewStateItem> restaurantsLiked) {
+        return userHelper.updateLikedRestaurant(restaurantsLiked);
     }
 
     @Nullable

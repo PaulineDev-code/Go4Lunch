@@ -18,9 +18,12 @@ import com.openclassrooms.go4lunch.BuildConfig;
 import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.databinding.ActivityDetailsBinding;
 import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
+import com.openclassrooms.go4lunch.models.DetailsViewStateItem;
 import com.openclassrooms.go4lunch.models.User;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelDetails;
+
+import java.util.ArrayList;
 
 public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
 
@@ -89,6 +92,14 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
                     intent.setData(Uri.parse("tel:" + results.getPhoneNumber().trim()));
                     startActivity(intent);
                 });
+                if(user.getLikedRestaurants().contains(results)) {
+                    binding.restaurantDetailsLike.setBackgroundResource(R.drawable.ic_baseline_star_rate_24);
+                } else {
+                    binding.restaurantDetailsLike.setBackgroundResource(R.drawable.ic_baseline_star_purple500_24);
+                }
+                binding.restaurantDetailsLike.setOnClickListener(v -> {
+                    likeRestaurant(results);
+                });
                 binding.restaurantDetailsWebsite.setOnClickListener(v -> {
                     if (results.getWebsite() == null) {
                         Toast toast = Toast.makeText(this, R.string.no_website, Toast.LENGTH_SHORT);
@@ -118,6 +129,24 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding>{
                         recyclerViewDetails.getContext(), DividerItemDecoration.VERTICAL));
             }
         });
+    }
+
+    private void likeRestaurant(DetailsViewStateItem restaurant) {
+        ArrayList<DetailsViewStateItem> likedRestaurants;
+        likedRestaurants = user.getLikedRestaurants();
+        if(likedRestaurants.contains(restaurant)) {
+            likedRestaurants.remove(restaurant);
+            user.setLikedRestaurants(likedRestaurants);
+            userSingleton.setUser(user);
+            viewModelDetails.updateLikedRestaurants(likedRestaurants);
+            binding.restaurantDetailsLike.setBackgroundResource(R.drawable.ic_baseline_star_purple500_24);
+        } else {
+            likedRestaurants.add(restaurant);
+            user.setLikedRestaurants(likedRestaurants);
+            userSingleton.setUser(user);
+            viewModelDetails.updateLikedRestaurants(likedRestaurants);
+            binding.restaurantDetailsLike.setBackgroundResource(R.drawable.ic_baseline_star_rate_24);
+        }
     }
 
     private void changeChosenRestaurant(String Id, String Name) {

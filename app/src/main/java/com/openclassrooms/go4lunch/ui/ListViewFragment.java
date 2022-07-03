@@ -61,6 +61,7 @@ public class ListViewFragment extends Fragment {
         View view = binding.getRoot();
         initUI();
         return view;
+
     }
 
 
@@ -84,4 +85,5 @@ public class ListViewFragment extends Fragment {
         });
 
     }
+
 }
