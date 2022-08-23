@@ -31,4 +31,8 @@ public class ViewModelSignIn extends ViewModel {
             userCreationLiveData.postValue(true);}
         return userCreationLiveData;
     }
+
+    /*public Task<Void> setFcmToken() {
+        return userRepository.setFcmToken();
+    }*/
 }

@@ -62,6 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:progressTint="@color/yellow_dusk"
+            android:secondaryProgressTint="@color/grey_light"
             android:foregroundGravity="center_vertical"
             android:numStars="3"
             android:theme="@style/RatingBar"

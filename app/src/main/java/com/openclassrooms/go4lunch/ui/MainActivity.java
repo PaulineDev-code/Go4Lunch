@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.Menu;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
@@ -32,6 +34,7 @@ import com.openclassrooms.go4lunch.BuildConfig;
 import com.openclassrooms.go4lunch.R;
 
 import com.openclassrooms.go4lunch.databinding.ActivityMain2Binding;
+import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
 
@@ -133,8 +136,7 @@ public class MainActivity extends AppCompatActivity {
                     .build(this);
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
         });
-
-
+        
     }
 
 

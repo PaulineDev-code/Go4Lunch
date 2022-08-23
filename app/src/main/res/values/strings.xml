@@ -13,9 +13,9 @@
     <string name="chat_empty">Chat empty</string>
     <string name="text_input_title_workmates_chat_fragment">Composer votre message</string>
     <string name="button_title_workmates_chat_fragment">ENVOYER</string>
-    <string name="menu_your_lunch">Your lunch</string>
-    <string name="menu_settings">Settings</string>
-    <string name="menu_logout">Logout</string>
+    <string name="menu_your_lunch">Votre repas</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_logout">Se déconnecter</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_restaurant_chosen">N\'a pas encore choisi</string>
@@ -23,9 +23,12 @@
     <string name="restaurant_closed">Fermé</string>
     <string name="restaurant_no_hours_info">Horaires indisponibles</string>
     <string name="call_button">Appeler</string>
-    <string name="like_button">Liker</string>
+    <string name="like_button">Aimer</string>
+    <string name="unlike_button">Ne plus aimer</string>
     <string name="website">Site Web</string>
     <string name="no_website">Site web non trouvé</string>
     <string name="is_joining">y va!</string>
+    <string name="default_notification_channel_id">test_notification_channel_id</string>
+    <string name="next_lunch_restaurant_base">Votre prochain repas: </string>
 
 </resources>

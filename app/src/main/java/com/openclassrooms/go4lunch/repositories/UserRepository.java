@@ -2,27 +2,20 @@ package com.openclassrooms.go4lunch.repositories;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
 import com.openclassrooms.go4lunch.helpers.UserHelper;
-import com.openclassrooms.go4lunch.models.DetailsViewStateItem;
+import com.openclassrooms.go4lunch.models.LikedRestaurant;
 import com.openclassrooms.go4lunch.models.User;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class UserRepository {
 
@@ -100,8 +93,12 @@ public class UserRepository {
         return userHelper.updateUser(placeId, placeName);
     }
 
-    public Task<Void> updateLikedRestaurants(ArrayList<DetailsViewStateItem> restaurantsLiked) {
+    public Task<Void> updateLikedRestaurants(ArrayList<LikedRestaurant> restaurantsLiked) {
         return userHelper.updateLikedRestaurant(restaurantsLiked);
+    }
+
+    public void setFcmToken(String fcmToken) {
+        userHelper.setFcmToken(fcmToken);
     }
 
     @Nullable

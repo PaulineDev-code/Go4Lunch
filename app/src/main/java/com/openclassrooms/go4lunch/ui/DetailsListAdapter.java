@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.databinding.DetailsListWorkmatesItemBinding;
-import com.openclassrooms.go4lunch.databinding.RestaurantsListItemBinding;
-import com.openclassrooms.go4lunch.models.RestaurantViewStateItem;
 import com.openclassrooms.go4lunch.models.User;
 
 import java.util.List;
@@ -43,7 +41,8 @@ public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.
                     .into(holder.binding.detailsWorkmateAvatar);
         }
 
-        String workmateJoining = workmate.getName()+R.string.is_joining;
+        String workmateJoining = workmate.getName().concat(" ")
+                .concat(context.getResources().getString(R.string.is_joining));
         holder.binding.detailsWorkmateName.setText(workmateJoining);
 
     }

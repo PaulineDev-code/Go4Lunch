@@ -15,10 +15,11 @@ public class User {
     private String nextLunchRestaurantName;
     @Nullable
     String urlPicture;
-    private ArrayList<DetailsViewStateItem> likedRestaurants;
+    private ArrayList<LikedRestaurant> likedRestaurants;
+    private String fcmToken;
 
     public User(String uid, String name, String email, @Nullable String urlPicture,
-                String nextLunchRestaurantId, String nextLunchRestaurantName, ArrayList<DetailsViewStateItem> likedRestaurants){
+                String nextLunchRestaurantId, String nextLunchRestaurantName, ArrayList<LikedRestaurant> likedRestaurants, String fcmToken){
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -26,10 +27,15 @@ public class User {
         this.nextLunchRestaurantId = null;
         this.nextLunchRestaurantName = null;
         this.likedRestaurants = null;
+        this.fcmToken = fcmToken;
     }
 
     public User() {
     }
+
+
+
+
 
     // --- GETTERS ---
     public String getUid() {
@@ -47,7 +53,8 @@ public class User {
     public String getUrlPicture() {
         return urlPicture;
     }
-    public ArrayList<DetailsViewStateItem> getLikedRestaurants() {return likedRestaurants;}
+    public ArrayList<LikedRestaurant> getLikedRestaurants() {return likedRestaurants;}
+    public String getFcmToken() { return fcmToken; }
 
     // --- SETTERS ---
     public void setUid(String uid) {
@@ -68,9 +75,9 @@ public class User {
     public void setUrlPicture(@Nullable String urlPicture) {
         this.urlPicture = urlPicture;
     }
-    public void setLikedRestaurants(ArrayList<DetailsViewStateItem> likedRestaurants) {
+    public void setLikedRestaurants(ArrayList<LikedRestaurant> likedRestaurants) {
         this.likedRestaurants = likedRestaurants;
     }
-
+    public void setFcmToken(String fcmToken) { this.fcmToken = fcmToken; }
 
 }

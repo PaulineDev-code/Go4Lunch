@@ -30,4 +30,9 @@ public class CurrentUserSingleton {
         setUser(user);
     }
 
+    public void updateFcmToken(String fcmToken) {
+        user.setFcmToken(fcmToken);
+        setUser(user);
+    }
+
 }

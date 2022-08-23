@@ -4,12 +4,15 @@ import android.location.Location;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.google.android.gms.tasks.Task;
 import com.openclassrooms.go4lunch.helpers.CombinedLiveData2;
+import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
 import com.openclassrooms.go4lunch.models.DetailsViewStateItem;
+import com.openclassrooms.go4lunch.models.LikedRestaurant;
 import com.openclassrooms.go4lunch.models.User;
 import com.openclassrooms.go4lunch.models.restaurantdetails.ResultDetails;
 import com.openclassrooms.go4lunch.repositories.DetailsRepository;
@@ -73,8 +76,41 @@ public class ViewModelDetails extends ViewModel {
         return userRepository.updateUserRestaurant(restaurantId, restaurantName);
     }
 
-    public Task<Void> updateLikedRestaurants(ArrayList<DetailsViewStateItem> restaurantsLiked) {
-        return userRepository.updateLikedRestaurants(restaurantsLiked);
+    public LiveData<Boolean> updateLikedRestaurants(DetailsViewStateItem likedRestaurantDetails) {
+        CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance();
+        User user = userSingleton.getUser();
+        MutableLiveData<Boolean> likedRestaurantLiveData = new MutableLiveData<>();
+        ArrayList<LikedRestaurant> restaurantsLiked;
+        LikedRestaurant likedRestaurant = new LikedRestaurant(likedRestaurantDetails.getName() ,
+                likedRestaurantDetails.getPlaceId(), likedRestaurantDetails.getAddress(),
+                likedRestaurantDetails.getPhotoList());
+        Boolean bool = null;
+        if(user.getLikedRestaurants() != null && !user.getLikedRestaurants().isEmpty()) {
+            restaurantsLiked = user.getLikedRestaurants();
+            for (LikedRestaurant restaurant :
+                 restaurantsLiked) {
+                if (restaurant.getPlaceId().equals(likedRestaurant.getPlaceId())) {
+                    restaurantsLiked.remove(restaurant);
+                    bool = false;
+                } else {
+                    restaurantsLiked.add(likedRestaurant);
+                    bool = true;
+                }
+            }
+        } else {
+            restaurantsLiked = new ArrayList<>();
+            restaurantsLiked.add(likedRestaurant);
+            bool = true;
+        }
+        Boolean finalBool = bool;
+        userRepository.updateLikedRestaurants(restaurantsLiked).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                user.setLikedRestaurants(restaurantsLiked);
+                userSingleton.setUser(user);
+                likedRestaurantLiveData.postValue(finalBool);
+            }
+        });
+        return likedRestaurantLiveData;
     }
 
 
