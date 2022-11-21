@@ -15,6 +15,7 @@ import com.openclassrooms.go4lunch.utils.MainApplication;
 import com.openclassrooms.go4lunch.utils.PermissionChecker;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelDetails;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelMapView;
+import com.openclassrooms.go4lunch.viewmodels.ViewModelSettings;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelSignIn;
 import com.openclassrooms.go4lunch.viewmodels.ViewModelWorkmates;
 
@@ -22,7 +23,7 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
 
     private volatile static ViewModelFactoryGo4Lunch sInstance;
 
-    private final UserRepository userRepository = new UserRepository();
+    private final UserRepository userRepository = UserRepository.getInstance();
 
     @NonNull
     private final PermissionChecker permissionChecker;
@@ -93,6 +94,9 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
         }
         else if (modelClass.isAssignableFrom(ViewModelDetails.class)){
             return (T) new ViewModelDetails(detailsRepository, userRepository);
+        }
+        else if (modelClass.isAssignableFrom(ViewModelSettings.class)){
+            return (T) new ViewModelSettings(userRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class" + modelClass);
     }

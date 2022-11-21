@@ -37,7 +37,7 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, MessageViewHo
     @Override
     public int getItemViewType(int position) {
         // Determine the type of the message by if the user is the sender or not
-        String currentUserId = Objects.requireNonNull(new UserRepository().getCurrentUser()).getUid();
+        String currentUserId = Objects.requireNonNull(UserRepository.getInstance().getCurrentUser()).getUid();
         boolean isSender = getItem(position).getUserSender().getUid().equals(currentUserId);
 
         return (isSender) ? SENDER_TYPE : RECEIVER_TYPE;

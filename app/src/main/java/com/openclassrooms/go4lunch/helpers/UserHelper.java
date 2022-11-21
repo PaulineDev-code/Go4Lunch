@@ -13,9 +13,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.iid.FirebaseInstanceIdReceiver;
-import com.google.firebase.iid.internal.FirebaseInstanceIdInternal;
-import com.openclassrooms.go4lunch.models.DetailsViewStateItem;
 import com.openclassrooms.go4lunch.models.LikedRestaurant;
 import com.openclassrooms.go4lunch.models.User;
 
@@ -25,7 +22,6 @@ import java.util.Objects;
 public class UserHelper {
 
     private static final String COLLECTION_NAME = "users";
-    private static final String USERNAME_FIELD = "username";
     private static UserHelper USER_HELPER;
     private final MutableLiveData<Boolean> createUserLiveData = new MutableLiveData<>();
     private static String FCM_TOKEN = "token";
@@ -47,13 +43,14 @@ public class UserHelper {
     public MutableLiveData<Boolean> createUser() {
         FirebaseUser user = getCurrentUser();
 
+        assert user != null;
         String urlPicture = (user.getPhotoUrl() != null) ? user.getPhotoUrl().toString() : null;
         String userEmail = user.getEmail();
         String username = user.getDisplayName();
         String uid = user.getUid();
 
         User userToCreate = new User(uid, username, userEmail, urlPicture, null,
-                null, new ArrayList<>(), FCM_TOKEN);
+                null, new ArrayList<>(), FCM_TOKEN, true);
         getUsersCollection().document(uid).set(userToCreate).addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 CurrentUserSingleton.getInstance().setUser(userToCreate);
@@ -67,7 +64,7 @@ public class UserHelper {
     }
 
 
-    public Task<Void> updateUser(String placeId, String placeName) {
+    public Task<Void> updateUserChoice(String placeId, String placeName) {
         FirebaseUser user = getCurrentUser();
         if (user != null) {
             return FirebaseFirestore.getInstance().collection("users")
@@ -92,14 +89,6 @@ public class UserHelper {
         String uid = Objects.requireNonNull(this.getCurrentUser()).getUid();
 
         return this.getUsersCollection().document(uid).get();
-    }
-
-    public Task<Void> setUserFcmToken(String fcmToken) {
-        User user = CurrentUserSingleton.getInstance().getUser();
-        if(user != null) {
-            return FirebaseFirestore.getInstance().collection("users")
-                    .document(user.getUid()).update("fcmToken", fcmToken);
-        } else {return null;}
     }
 
     //Get the list of users without the current user
@@ -129,6 +118,13 @@ public class UserHelper {
         FCM_TOKEN = fcmToken;
     }
 
+    public Task<Void> updateUserNotifications(Boolean isNotified) {
+        User user = CurrentUserSingleton.getInstance().getUser();
+        if(user != null) {
+            return FirebaseFirestore.getInstance().collection("users")
+                    .document(user.getUid()).update("isNotified", isNotified);
+        } else {return null;}
+    }
 
     @Nullable
     public FirebaseUser getCurrentUser() {

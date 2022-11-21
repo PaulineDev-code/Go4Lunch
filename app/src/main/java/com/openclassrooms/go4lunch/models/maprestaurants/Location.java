@@ -32,11 +32,4 @@ public class Location implements Serializable {
         this.lng = lng;
     }
 
-    /*public android.location.Location getLocation () {
-        location.setLatitude(getLat());
-        location.setLongitude(getLng());
-
-        return location;
-        }*/
-
 }

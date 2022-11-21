@@ -17,7 +17,6 @@ public class DetailsPOJO implements Serializable
     @SerializedName("status")
     @Expose
     private String status;
-    private final static long serialVersionUID = -2940165583339155814L;
 
     public List<Object> getHtmlAttributions() {
         return htmlAttributions;

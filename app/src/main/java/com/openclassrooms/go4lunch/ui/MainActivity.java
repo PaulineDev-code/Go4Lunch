@@ -61,27 +61,16 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMain2Binding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        userRepository = new UserRepository();
+        userRepository = UserRepository.getInstance();
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), BuildConfig.apiKey, Locale.FRANCE);
         }
 
         setSupportActionBar(binding.appBarMainInclude.toolbar);
-        binding.appBarMainInclude.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startChatActivity();
-            }
-        });
 
         initDrawerNavigation();
         initViewModel();
         initAutoCompleteSearch();
-    }
-
-    private void startChatActivity() {
-        Intent intentChatActivity = new Intent(this, ChatActivity.class);
-        startActivity(intentChatActivity);
     }
 
     private void initDrawerNavigation() {
@@ -102,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
         int id = item.getItemId();
-        if (id == R.id.nav_home) {
-            finish();
+        if (id == R.id.drawer_your_lunch) {
+            NavigationUI.onNavDestinationSelected(item, navController);
+            drawer.closeDrawers();
         }
         else if (id == R.id.nav_gallery) {
 
@@ -135,8 +125,9 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
                     .build(this);
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
+
+
         });
-        
     }
 
 
@@ -174,6 +165,9 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                Intent intent = new Intent(this, DetailsActivity.class);
+                intent.putExtra("restaurant_id", place.getId());
+                this.startActivity(intent);
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);

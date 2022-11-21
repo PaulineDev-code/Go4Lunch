@@ -17,9 +17,10 @@ public class User {
     String urlPicture;
     private ArrayList<LikedRestaurant> likedRestaurants;
     private String fcmToken;
+    private Boolean isNotified;
 
     public User(String uid, String name, String email, @Nullable String urlPicture,
-                String nextLunchRestaurantId, String nextLunchRestaurantName, ArrayList<LikedRestaurant> likedRestaurants, String fcmToken){
+                String nextLunchRestaurantId, String nextLunchRestaurantName, ArrayList<LikedRestaurant> likedRestaurants, String fcmToken, Boolean isNotified){
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -28,14 +29,11 @@ public class User {
         this.nextLunchRestaurantName = null;
         this.likedRestaurants = null;
         this.fcmToken = fcmToken;
+        this.isNotified = isNotified;
     }
 
     public User() {
     }
-
-
-
-
 
     // --- GETTERS ---
     public String getUid() {
@@ -55,6 +53,7 @@ public class User {
     }
     public ArrayList<LikedRestaurant> getLikedRestaurants() {return likedRestaurants;}
     public String getFcmToken() { return fcmToken; }
+    public Boolean getIsNotified() { return isNotified; }
 
     // --- SETTERS ---
     public void setUid(String uid) {
@@ -79,5 +78,6 @@ public class User {
         this.likedRestaurants = likedRestaurants;
     }
     public void setFcmToken(String fcmToken) { this.fcmToken = fcmToken; }
+    public void setIsNotified(Boolean isNotified) { this.isNotified = isNotified; }
 
 }

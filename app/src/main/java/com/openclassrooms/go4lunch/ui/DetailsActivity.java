@@ -43,6 +43,7 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding> {
     private User user;
     private Drawable likeStarEmpty;
     private Drawable likeStarFull;
+    private Boolean isRestaurantLiked;
 
     @Override
     ActivityDetailsBinding getViewBinding() {
@@ -109,29 +110,34 @@ public class DetailsActivity extends BaseActivity<ActivityDetailsBinding> {
                 });
                 if(user.getLikedRestaurants() == null || user.getLikedRestaurants().isEmpty()) {
                     binding.restaurantDetailsLike.setCompoundDrawablesWithIntrinsicBounds(null, likeStarEmpty, null, null);
+                    isRestaurantLiked = false;
                 } else {
                     for (LikedRestaurant restaurant : user.getLikedRestaurants()) {
                         if (restaurant.getPlaceId().equals(restaurantId)) {
                             binding.restaurantDetailsLike.setText(R.string.unlike_button);
                             binding.restaurantDetailsLike.setCompoundDrawablesWithIntrinsicBounds(null, likeStarFull, null, null);
+                            isRestaurantLiked = true;
                         } else {
                             binding.restaurantDetailsLike.setCompoundDrawablesWithIntrinsicBounds(null, likeStarEmpty, null, null);
-
+                            isRestaurantLiked = false;
                         }
                     }
                 }
 
                 binding.restaurantDetailsLike.setOnClickListener(v -> {
-                    viewModelDetails.updateLikedRestaurants(results).observe(this, restaurantAdding -> {
-                        if (restaurantAdding) {
-                            binding.restaurantDetailsLike.setText(R.string.unlike_button);
-                            binding.restaurantDetailsLike.setCompoundDrawablesWithIntrinsicBounds(null, likeStarFull, null, null);
-                        } else {
+                        if (isRestaurantLiked) {
+                            viewModelDetails.removeLikedRestaurant(results);
                             binding.restaurantDetailsLike.setText(R.string.like_button);
-                            binding.restaurantDetailsLike.setCompoundDrawablesWithIntrinsicBounds(null, likeStarEmpty, null, null);
-                        }
+                            binding.restaurantDetailsLike.setCompoundDrawablesWithIntrinsicBounds
+                                    (null, likeStarEmpty, null, null);
+                        } else {
+                            viewModelDetails.addLikedRestaurant(results);
+                            binding.restaurantDetailsLike.setText(R.string.unlike_button);
+                            binding.restaurantDetailsLike.setCompoundDrawablesWithIntrinsicBounds
+                                    (null, likeStarFull, null, null);
+                            }
                     });
-                });
+
                 binding.restaurantDetailsWebsite.setOnClickListener(v -> {
                     if (results.getWebsite() == null) {
                         Toast toast = Toast.makeText(this, R.string.no_website, Toast.LENGTH_SHORT);

@@ -8,25 +8,31 @@
     <fragment
         android:id="@+id/mapViewFragment"
         android:name="com.openclassrooms.go4lunch.ui.MapViewFragment"
-        android:label="fragment_map_view"
+        android:label="@string/fragments_title"
         tools:layout="@layout/fragment_map_view" />
 
     <fragment
         android:id="@+id/listViewFragment"
         android:name="com.openclassrooms.go4lunch.ui.ListViewFragment"
-        android:label="fragment_list_view"
+        android:label="@string/fragments_title"
         tools:layout="@layout/fragment_list_view" />
 
     <fragment
         android:id="@+id/workmatesFragment"
         android:name="com.openclassrooms.go4lunch.ui.WorkmatesFragment"
-        android:label="fragment_workmates"
+        android:label="@string/fragments_title"
         tools:layout="@layout/fragment_workmates"/>
 
     <fragment
+        android:id="@+id/drawer_your_lunch"
+        android:name="com.openclassrooms.go4lunch.ui.YourLunchFragment"
+        android:label="@string/menu_your_lunch"
+        tools:layout="@layout/fragment_your_lunch"/>
+
+    <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.openclassrooms.go4lunch.ui.GalleryFragment"
-        android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery"/>
+        android:name="com.openclassrooms.go4lunch.ui.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings"/>
 
 </navigation>

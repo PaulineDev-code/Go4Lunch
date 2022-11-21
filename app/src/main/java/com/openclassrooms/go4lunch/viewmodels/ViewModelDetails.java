@@ -76,6 +76,37 @@ public class ViewModelDetails extends ViewModel {
         return userRepository.updateUserRestaurant(restaurantId, restaurantName);
     }
 
+    public void addLikedRestaurant(DetailsViewStateItem likedRestaurantDetails) {
+        User user = CurrentUserSingleton.getInstance().getUser();
+        LikedRestaurant likedRestaurant = new LikedRestaurant(likedRestaurantDetails.getName() ,
+                likedRestaurantDetails.getPlaceId(), likedRestaurantDetails.getAddress(),
+                likedRestaurantDetails.getPhotoList());
+        ArrayList<LikedRestaurant> likedRestaurants;
+        if(user.getLikedRestaurants() == null) {
+            likedRestaurants = new ArrayList<>();
+        } else {
+            likedRestaurants = user.getLikedRestaurants();
+        }
+        likedRestaurants.add(likedRestaurant);
+        user.setLikedRestaurants(likedRestaurants);
+        CurrentUserSingleton.getInstance().setUser(user);
+        userRepository.updateLikedRestaurants(likedRestaurants);
+    }
+
+    public void removeLikedRestaurant(DetailsViewStateItem unlikedRestaurant) {
+        CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance();
+        User user = userSingleton.getUser();
+        ArrayList<LikedRestaurant> likedRestaurants = user.getLikedRestaurants();
+        for(LikedRestaurant restaurant : likedRestaurants) {
+            if(restaurant.getPlaceId().equals(unlikedRestaurant.getPlaceId())) {
+                likedRestaurants.remove(restaurant);
+            }
+        }
+        user.setLikedRestaurants(likedRestaurants);
+        userSingleton.setUser(user);
+        userRepository.updateLikedRestaurants(likedRestaurants);
+    }
+
     public LiveData<Boolean> updateLikedRestaurants(DetailsViewStateItem likedRestaurantDetails) {
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance();
         User user = userSingleton.getUser();
@@ -86,7 +117,7 @@ public class ViewModelDetails extends ViewModel {
                 likedRestaurantDetails.getPhotoList());
         Boolean bool = null;
         if(user.getLikedRestaurants() != null && !user.getLikedRestaurants().isEmpty()) {
-            restaurantsLiked = user.getLikedRestaurants();
+            restaurantsLiked = new ArrayList<>(user.getLikedRestaurants());
             for (LikedRestaurant restaurant :
                  restaurantsLiked) {
                 if (restaurant.getPlaceId().equals(likedRestaurant.getPlaceId())) {

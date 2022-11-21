@@ -6,55 +6,69 @@
     android:layout_height="match_parent"
     tools:context=".ui.YourLunchFragment">
 
-    <LinearLayout
-        android:id="@+id/your_lunch_Linear_layout"
-        android:orientation="vertical"
+    <ImageView
+        android:id="@+id/your_lunch_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_go4lunch"
+        app:layout_constraintBottom_toTopOf="@+id/your_next_lunch_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/orange_hard" />
+
+    <TextView
+        android:id="@+id/your_next_lunch_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_lunch_logo" />
 
-        <ImageView
-         android:id="@+id/your_lunch_logo"
-         android:contentDescription="@string/app_name"
-         android:layout_width="wrap_content"
-         android:layout_height="32dp"
-         android:src="@drawable/ic_go4lunch"
-         app:tint="@color/orange_hard"/>
+    <TextView
+        android:id="@+id/your_next_lunch_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        android:textColor="@color/com_facebook_messenger_blue"
+        android:focusable="true"
+        android:clickable="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_next_lunch_title" />
 
-        <TextView
-        android:id="@+id/your_next_lunch"
+    <TextView
+        android:id="@+id/your_favorites_restaurants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/your_favorites_restaurants"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-    </LinearLayout>
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/your_next_lunch_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/restaurants_liked_rv"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurants_liked_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/restaurants_liked_item"
-        tools:context="com.openclassrooms.go4lunch.ui.YourLunchFragment"
-        app:layout_constraintTop_toBottomOf="@+id/your_lunch_Linear_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_favorites_restaurants"
+        tools:context="com.openclassrooms.go4lunch.ui.YourLunchFragment"
+        tools:listitem="@layout/restaurants_liked_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

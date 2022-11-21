@@ -23,5 +23,4 @@ public class RetrofitService {
         return retrofit.create(ApiInterface.class);
     }
 
-
 }

@@ -1,5 +1,6 @@
 package com.openclassrooms.go4lunch.ui;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -18,9 +19,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.models.RestaurantViewStateItem;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
@@ -38,9 +42,11 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     SupportMapFragment mapFragment;
     private Location currentLocation ;
+    private static final float INITIAL_ZOOM = 15;
     private ViewModelMapView viewModelMapView;
     private LatLng position ;
     private String userLocation;
+    private FloatingActionButton fab;
 
     public MapViewFragment() {
         // Required empty public constructor
@@ -71,6 +77,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
         View rootView = inflater.inflate(R.layout.fragment_map_view, container, false);
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         assert mapFragment != null;
         mapFragment.getMapAsync(MapViewFragment.this);
         return rootView;
@@ -86,6 +93,7 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
 
             if(loc != null){
                 position = new LatLng(loc.getLatitude(),loc.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position, INITIAL_ZOOM));
                 Log.i("géoloc", "startLocationUpdate: "+position);
                 userLocation = position.latitude+","+position.longitude;
                 viewModelMapView.initRestaurantLiveData(userLocation);
@@ -95,8 +103,13 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
                     }
                 });
                 if(mMap != null) {
-                    mMap.addMarker(new MarkerOptions().position(position).title("Marker: Your location"));
+                    mMap.addMarker(new MarkerOptions().position(position)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET))
+                            .title("Your location"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+                    fab.setOnClickListener(v -> {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+                    });
                 }
             }
         });
@@ -130,18 +143,28 @@ public class MapViewFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.mMap = googleMap;
         startLocationUpdate();
-
     }
 
     private void addMarkers(List<RestaurantViewStateItem> restaurants){
         for (RestaurantViewStateItem restaurant : restaurants){
-            mMap.addMarker(new MarkerOptions()
-            .position(new LatLng(
-                    restaurant.getLocation().getLat(),
-                    restaurant.getLocation().getLng()))
-            .title(restaurant.getName())
-            .snippet(restaurant.getVicinity())
-            );
+            if(restaurant.getWorkmates() > 0){
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(
+                                restaurant.getLocation().getLat(),
+                                restaurant.getLocation().getLng()))
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                        .title(restaurant.getName())
+                        .snippet(restaurant.getVicinity())
+                );
+            } else {
+                mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(
+                                restaurant.getLocation().getLat(),
+                                restaurant.getLocation().getLng()))
+                        .title(restaurant.getName())
+                        .snippet(restaurant.getVicinity())
+                );
+            }
         }
     }
 }

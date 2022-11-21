@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Go4Lunch</string>
     <string name="title_activity_maps">Map</string>
     <string name="facebook_application_id">779215769435665</string>
@@ -34,6 +36,5 @@
     <string name="favorites_restaurants_title">Vos restaurants favoris</string>
     <string name="settings_activate_notification">Notifications</string>
     <string name="settings_notification_title">Activer ou désactiver les notifications</string>
-
 
 </resources>

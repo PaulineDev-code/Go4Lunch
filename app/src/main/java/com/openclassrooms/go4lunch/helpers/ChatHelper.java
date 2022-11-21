@@ -1,7 +1,5 @@
 package com.openclassrooms.go4lunch.helpers;
 
-
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -13,9 +11,10 @@ public class ChatHelper {
 
     private static final String MESSAGE_COLLECTION = "messages";
     private static ChatHelper CHAT_HELPER;
-    private UserRepository userRepository;
 
-    private ChatHelper() {this.userRepository = UserRepository.getInstance();}
+    private ChatHelper() {
+        UserRepository.getInstance();
+    }
 
 
     //Instance for Repository

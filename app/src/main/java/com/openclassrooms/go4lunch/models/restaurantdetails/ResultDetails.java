@@ -41,7 +41,6 @@ public class ResultDetails implements Serializable
     @SerializedName("website")
     @Expose
     private String website;
-    private final static long serialVersionUID = -5291479497260351143L;
 
     public String getFormattedAddress() {
         return formattedAddress;

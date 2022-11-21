@@ -20,25 +20,23 @@ import java.util.List;
 public class UserRepository {
 
 
-    private final UserHelper userHelper = UserHelper.getInstance();
+    public UserRepository(UserHelper userHelper) {
+        this.userHelper = userHelper;
+    }
+
+    private final UserHelper userHelper;
     private static UserRepository USER_REPOSITORY;
-    private final MutableLiveData<User> createNewUser = new MutableLiveData<>();
     private final MutableLiveData<Boolean> getExistingUser = new MutableLiveData<>();
     private final MutableLiveData<List<User>> getAllWorkmates = new MutableLiveData<>();
     private final MutableLiveData<List<User>> workmatesForRestaurant = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> notificationsTaskResult = new MutableLiveData<>();
 
     //Instance of Repository
     public static UserRepository getInstance() {
         if (USER_REPOSITORY == null) {
-            USER_REPOSITORY = new UserRepository();
+            USER_REPOSITORY = new UserRepository(UserHelper.getInstance());
         }
         return USER_REPOSITORY;
-    }
-
-
-    // Create User in Firestore
-    public MutableLiveData<Boolean> createNewUser() {
-        return userHelper.createUser();
     }
 
     public MutableLiveData<Boolean> getUser(){
@@ -90,7 +88,7 @@ public class UserRepository {
     }
 
     public Task<Void> updateUserRestaurant(String placeId, String placeName) {
-        return userHelper.updateUser(placeId, placeName);
+        return userHelper.updateUserChoice(placeId, placeName);
     }
 
     public Task<Void> updateLikedRestaurants(ArrayList<LikedRestaurant> restaurantsLiked) {
@@ -99,6 +97,17 @@ public class UserRepository {
 
     public void setFcmToken(String fcmToken) {
         userHelper.setFcmToken(fcmToken);
+    }
+
+    public MutableLiveData<Boolean> updateUserNotifications(Boolean isNotified) {
+        userHelper.updateUserNotifications(isNotified).addOnCompleteListener(task -> {
+           if (task.isSuccessful()) {
+               notificationsTaskResult.postValue(true);
+           } else {
+               notificationsTaskResult.postValue(false);
+           }
+        });
+        return notificationsTaskResult;
     }
 
     @Nullable

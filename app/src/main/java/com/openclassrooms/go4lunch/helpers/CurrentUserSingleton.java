@@ -24,15 +24,4 @@ public class CurrentUserSingleton {
         return user;
     }
 
-    public void updateUserChoice(String placeId, String placeName) {
-        user.setNextLunchRestaurantId(placeId);
-        user.setNextLunchRestaurantName(placeName);
-        setUser(user);
-    }
-
-    public void updateFcmToken(String fcmToken) {
-        user.setFcmToken(fcmToken);
-        setUser(user);
-    }
-
 }

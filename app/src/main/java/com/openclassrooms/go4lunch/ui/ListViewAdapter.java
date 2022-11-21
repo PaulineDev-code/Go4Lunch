@@ -47,7 +47,10 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.MyRest
                 .load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&maxheight=100&photoreference="
                 +restaurant.getPhotoList().get(0).getPhotoReference()
                 +"&key="+ BuildConfig.apiKey)
-                .into(holder.binding.restaurantItemAvatar);}
+                .into(holder.binding.restaurantItemAvatar);
+        } else {
+            holder.binding.restaurantItemAvatar.setImageResource(R.drawable.ic_baseline_no_photography_24);
+        }
 
         //Display restaurant's name and address
         holder.binding.restaurantItemName.setText(restaurant.getName());
@@ -116,8 +119,6 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.MyRest
             super(binding.getRoot());
             this.binding = binding;
         }
-
-
 
     }
 }

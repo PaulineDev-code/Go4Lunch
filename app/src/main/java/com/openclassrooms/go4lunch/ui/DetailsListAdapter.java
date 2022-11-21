@@ -16,8 +16,8 @@ import java.util.List;
 
 public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.MyDetailsViewHolder> {
 
-    private List<User> mWorkmates;
-    private Context context;
+    private final List<User> mWorkmates;
+    private final Context context;
 
     public DetailsListAdapter(List<User> workmatesList, Context context){
         this.mWorkmates = workmatesList;
