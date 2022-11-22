@@ -3,8 +3,6 @@ package com.openclassrooms.go4lunch.ui;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,13 +13,12 @@ import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.databinding.WorkmatesItemBinding;
 import com.openclassrooms.go4lunch.models.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyViewHolder> {
 
-    private List<User> mWorkmates;
+    private final List<User> mWorkmates;
     private final Context context;
 
 
@@ -45,45 +42,31 @@ public class WorkmatesAdapter extends RecyclerView.Adapter<WorkmatesAdapter.MyVi
                 .apply(new RequestOptions().circleCrop())
                 .into(holder.binding.workmatesItemAvatar);
         holder.binding.workmatesItemName.setText(workmate.getName());
-        if(workmate.getNextLunchRestaurantName() == null) {
+        if (workmate.getNextLunchRestaurantName() == null) {
             holder.binding.workmatesItemRestaurantName.setText(R.string.no_restaurant_chosen);
         } else {
-            holder.binding.workmatesItemRestaurantName.setText(workmate.getNextLunchRestaurantName());
+            holder.binding.workmatesItemRestaurantName
+                    .setText(workmate.getNextLunchRestaurantName());
         }
 
     }
 
     @Override
     public int getItemCount() {
-        if(mWorkmates == null) {
+        if (mWorkmates == null) {
             return 0;
-        }
-        else {
+        } else {
             return mWorkmates.size();
         }
     }
 
-    void updateListWorkmates(@NonNull final List<User> workmates) {
-        this.mWorkmates= workmates;
-        notifyDataSetChanged();
-    }
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-
-        /*private ImageView avatarWorkmate;
-        private TextView nameWorkmate;
-        private TextView nameRestaurant;*/
 
         private final WorkmatesItemBinding binding;
 
-        public MyViewHolder(WorkmatesItemBinding binding){
+        public MyViewHolder(WorkmatesItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
-
-
-
     }
-
-
 }

@@ -5,13 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -56,7 +52,7 @@ public class YourLunchFragment extends Fragment {
 
         binding.yourNextLunchTitle.setText(R.string.next_lunch_restaurant_base);
         binding.yourNextLunchName.setText(user.getNextLunchRestaurantName());
-        binding.yourNextLunchName.setOnClickListener( v -> {
+        binding.yourNextLunchName.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), DetailsActivity.class);
             intent.putExtra("restaurant_id", user.getNextLunchRestaurantId());
             v.getContext().startActivity(intent);

@@ -19,7 +19,7 @@ public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.
     private final List<User> mWorkmates;
     private final Context context;
 
-    public DetailsListAdapter(List<User> workmatesList, Context context){
+    public DetailsListAdapter(List<User> workmatesList, Context context) {
         this.mWorkmates = workmatesList;
         this.context = context;
     }
@@ -35,7 +35,7 @@ public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.
     public void onBindViewHolder(@NonNull DetailsListAdapter.MyDetailsViewHolder holder, int position) {
         User workmate = mWorkmates.get(position);
 
-        if(workmate.getUrlPicture()!=null) {
+        if (workmate.getUrlPicture() != null) {
             Glide.with(context)
                     .load(workmate.getUrlPicture())
                     .into(holder.binding.detailsWorkmateAvatar);
@@ -49,10 +49,9 @@ public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.
 
     @Override
     public int getItemCount() {
-        if(mWorkmates == null) {
+        if (mWorkmates == null) {
             return 0;
-        }
-        else {
+        } else {
             return mWorkmates.size();
         }
     }
@@ -60,7 +59,7 @@ public class DetailsListAdapter extends RecyclerView.Adapter<DetailsListAdapter.
     public static class MyDetailsViewHolder extends RecyclerView.ViewHolder {
         private final DetailsListWorkmatesItemBinding binding;
 
-        public MyDetailsViewHolder(DetailsListWorkmatesItemBinding binding){
+        public MyDetailsViewHolder(DetailsListWorkmatesItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

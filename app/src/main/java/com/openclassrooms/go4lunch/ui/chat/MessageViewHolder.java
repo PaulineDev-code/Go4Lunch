@@ -23,12 +23,12 @@ import java.util.Locale;
 
 public class MessageViewHolder extends RecyclerView.ViewHolder {
 
-    private ItemChatBinding binding;
+    private final ItemChatBinding binding;
 
     private final int colorCurrentUser;
     private final int colorRemoteUser;
 
-    private boolean isSender;
+    private final boolean isSender;
 
     public MessageViewHolder(@NonNull View itemView, boolean isSender) {
         super(itemView);
@@ -40,14 +40,16 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         colorRemoteUser = ContextCompat.getColor(itemView.getContext(), R.color.blue_light);
     }
 
-    public void updateWithMessage(Message message, RequestManager glide){
+    public void updateWithMessage(Message message, RequestManager glide) {
 
         // Update message
         binding.messageTextView.setText(message.getMessage());
-        binding.messageTextView.setTextAlignment(isSender ? View.TEXT_ALIGNMENT_TEXT_END : View.TEXT_ALIGNMENT_TEXT_START);
+        binding.messageTextView.setTextAlignment(isSender ?
+                View.TEXT_ALIGNMENT_TEXT_END : View.TEXT_ALIGNMENT_TEXT_START);
 
         // Update date
-        if (message.getDateCreated() != null) binding.dateTextView.setText(this.convertDateToHour(message.getDateCreated()));
+        if (message.getDateCreated() != null)
+            binding.dateTextView.setText(this.convertDateToHour(message.getDateCreated()));
 
         // Update profile picture
         if (message.getUserSender().getUrlPicture() != null)
@@ -56,7 +58,7 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
                     .into(binding.profileImage);
 
         // Update image sent
-        if (message.getUrlImage() != null){
+        if (message.getUrlImage() != null) {
             glide.load(message.getUrlImage())
                     .into(binding.senderImageView);
             binding.senderImageView.setVisibility(View.VISIBLE);
@@ -67,29 +69,34 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         updateLayoutFromSenderType();
     }
 
-    private void updateLayoutFromSenderType(){
+    private void updateLayoutFromSenderType() {
 
         //Update Message Bubble Color Background
-        ((GradientDrawable) binding.messageTextContainer.getBackground()).setColor(isSender ? colorCurrentUser : colorRemoteUser);
+        ((GradientDrawable) binding.messageTextContainer.getBackground())
+                .setColor(isSender ? colorCurrentUser : colorRemoteUser);
         binding.messageTextContainer.requestLayout();
 
-        if(!isSender){
+        if (!isSender) {
             updateProfileContainer();
             updateMessageContainer();
         }
     }
 
-    private void updateProfileContainer(){
-        // Update the constraint for the profile container (Push it to the left for receiver message)
-        ConstraintLayout.LayoutParams profileContainerLayoutParams = (ConstraintLayout.LayoutParams) binding.profileContainer.getLayoutParams();
+    private void updateProfileContainer() {
+        // Update the constraint for the profile container
+        // (Push it to the left for receiver message)
+        ConstraintLayout.LayoutParams profileContainerLayoutParams =
+                (ConstraintLayout.LayoutParams) binding.profileContainer.getLayoutParams();
         profileContainerLayoutParams.endToEnd = ConstraintLayout.LayoutParams.UNSET;
         profileContainerLayoutParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
         binding.profileContainer.requestLayout();
     }
 
-    private void updateMessageContainer(){
-        // Update the constraint for the message container (Push it to the right of the profile container for receiver message)
-        ConstraintLayout.LayoutParams messageContainerLayoutParams = (ConstraintLayout.LayoutParams) binding.messageContainer.getLayoutParams();
+    private void updateMessageContainer() {
+        // Update the constraint for the message container
+        // (Push it to the right of the profile container for receiver message)
+        ConstraintLayout.LayoutParams messageContainerLayoutParams =
+                (ConstraintLayout.LayoutParams) binding.messageContainer.getLayoutParams();
         messageContainerLayoutParams.startToStart = ConstraintLayout.LayoutParams.UNSET;
         messageContainerLayoutParams.endToStart = ConstraintLayout.LayoutParams.UNSET;
         messageContainerLayoutParams.startToEnd = binding.profileContainer.getId();
@@ -97,18 +104,21 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
         messageContainerLayoutParams.horizontalBias = 0.0f;
         binding.messageContainer.requestLayout();
 
-        // Update the constraint (gravity) for the text of the message (content + date) (Align it to the left for receiver message)
-        LinearLayout.LayoutParams messageTextLayoutParams = (LinearLayout.LayoutParams) binding.messageTextContainer.getLayoutParams();
+        // Update the constraint (gravity) for the text of the message (content + date)
+        // (Align it to the left for receiver message)
+        LinearLayout.LayoutParams messageTextLayoutParams =
+                (LinearLayout.LayoutParams) binding.messageTextContainer.getLayoutParams();
         messageTextLayoutParams.gravity = Gravity.START;
         binding.messageTextContainer.requestLayout();
 
-        LinearLayout.LayoutParams dateLayoutParams = (LinearLayout.LayoutParams) binding.dateTextView.getLayoutParams();
+        LinearLayout.LayoutParams dateLayoutParams =
+                (LinearLayout.LayoutParams) binding.dateTextView.getLayoutParams();
         dateLayoutParams.gravity = Gravity.BOTTOM | Gravity.START;
         binding.dateTextView.requestLayout();
 
     }
 
-    private String convertDateToHour(Date date){
+    private String convertDateToHour(Date date) {
         DateFormat dfTime = new SimpleDateFormat("EEE MMM d, HH:mm", Locale.getDefault());
         return dfTime.format(date);
     }

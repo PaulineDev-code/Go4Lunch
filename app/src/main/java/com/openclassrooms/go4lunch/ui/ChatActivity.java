@@ -20,14 +20,8 @@ import com.openclassrooms.go4lunch.ui.chat.ChatAdapter;
 public class ChatActivity extends BaseActivity<ActivityChatBinding> implements ChatAdapter.Listener {
 
     private ChatAdapter chatAdapter;
-    private String currentChatName;
-
-/*    private static final String CHAT_NAME_ANDROID = "android";
-    private static final String CHAT_NAME_BUG = "bug";
-    private static final String CHAT_NAME_FIREBASE = "firebase";*/
-
-    private UserRepository userRepository = UserRepository.getInstance();
-    private ChatRepository chatRepository = ChatRepository.getInstance();
+    private final UserRepository userRepository = UserRepository.getInstance();
+    private final ChatRepository chatRepository = ChatRepository.getInstance();
 
     @Override
     protected ActivityChatBinding getViewBinding() {
@@ -41,19 +35,19 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> implements C
         setupListeners();
     }
 
-    private void setupListeners(){
+    private void setupListeners() {
         // Send button
-        binding.sendButton.setOnClickListener(view -> { sendMessage(); });
+        binding.sendButton.setOnClickListener(view -> sendMessage());
     }
 
-    private void sendMessage(){
+    private void sendMessage() {
         // Check if user can send a message (Text not null + user logged)
         boolean canSendMessage = !TextUtils.isEmpty(binding.chatEditText.getText()) && userRepository.isCurrentUserLogged();
 
-        if (canSendMessage){
+        if (canSendMessage) {
             // Create a new message for the chat
             // Detection for gif and load url in UrlImage
-            if(binding.chatEditText.getText().toString().contains("media.tenor.com/images")) {
+            if (binding.chatEditText.getText().toString().contains("media.tenor.com/images")) {
                 Message message = new Message();
                 message.setUrlImage(binding.chatEditText.getText().toString());
             }
@@ -64,9 +58,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> implements C
     }
 
     // Configure RecyclerView
-    private void configureRecyclerView(){
-        //Track current chat name
-        /*this.currentChatName = chatName;*/
+    private void configureRecyclerView() {
         //Configure Adapter & RecyclerView
         this.chatAdapter = new ChatAdapter(
                 generateOptionsForAdapter(chatRepository.getAllMessageForChat()),
@@ -84,7 +76,7 @@ public class ChatActivity extends BaseActivity<ActivityChatBinding> implements C
     }
 
     // Create options for RecyclerView from a Query
-    private FirestoreRecyclerOptions<Message> generateOptionsForAdapter(Query query){
+    private FirestoreRecyclerOptions<Message> generateOptionsForAdapter(Query query) {
         return new FirestoreRecyclerOptions.Builder<Message>()
                 .setQuery(query, Message.class)
                 .setLifecycleOwner(this)

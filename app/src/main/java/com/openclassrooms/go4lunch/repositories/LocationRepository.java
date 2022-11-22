@@ -1,7 +1,5 @@
 package com.openclassrooms.go4lunch.repositories;
 
-import static android.content.ContentValues.TAG;
-
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
@@ -15,7 +13,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.tasks.OnFailureListener;
 
 public class LocationRepository {
     private static final int LOCATION_REQUEST_INTERVAL_MS = 10_000;
@@ -37,7 +34,8 @@ public class LocationRepository {
         return locationMutableLiveData;
     }
 
-    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"})
+    @RequiresPermission(anyOf = {"android.permission.ACCESS_COARSE_LOCATION",
+            "android.permission.ACCESS_FINE_LOCATION"})
     public void startLocationRequest() {
         if (callback == null) {
             callback = new LocationCallback() {
@@ -45,13 +43,11 @@ public class LocationRepository {
                 public void onLocationResult(@NonNull LocationResult locationResult) {
                     Location location = locationResult.getLastLocation();
 
-                        locationMutableLiveData.setValue(location);
+                    locationMutableLiveData.setValue(location);
 
                 }
             };
         }
-
-        /*fusedLocationProviderClient.removeLocationUpdates(callback);*/
 
         fusedLocationProviderClient.requestLocationUpdates(
                 LocationRequest.create()
@@ -60,12 +56,7 @@ public class LocationRepository {
                         .setInterval(LOCATION_REQUEST_INTERVAL_MS),
                 callback,
                 Looper.getMainLooper()
-        ).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e("", e.getMessage());
-            }
-        });
+        ).addOnFailureListener(e -> Log.e("", e.getMessage()));
     }
 
     public void stopLocationRequest() {

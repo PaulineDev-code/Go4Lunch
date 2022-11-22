@@ -32,11 +32,10 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
     private final LocationRepository locationRepository;
 
     @NonNull
-    private final  RestaurantRepository restaurantRepository = new RestaurantRepository();
+    private final RestaurantRepository restaurantRepository = new RestaurantRepository();
 
     @NonNull
     private final DetailsRepository detailsRepository = new DetailsRepository();
-
 
 
     public static ViewModelFactoryGo4Lunch getInstance() {
@@ -68,7 +67,7 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
             @NonNull PermissionChecker permissionChecker,
             @NonNull LocationRepository locationRepository,
             @NonNull RestaurantRepository restaurantRepository
-            ) {
+    ) {
         this.permissionChecker = permissionChecker;
         this.locationRepository = locationRepository;
     }
@@ -80,22 +79,18 @@ public class ViewModelFactoryGo4Lunch implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(ViewModelSignIn.class)) {
             return (T) new ViewModelSignIn(userRepository);
-        }
-        else if (modelClass.isAssignableFrom(ViewModelMapView.class)){
+        } else if (modelClass.isAssignableFrom(ViewModelMapView.class)) {
             return (T) new ViewModelMapView(
                     permissionChecker,
                     locationRepository,
                     restaurantRepository,
                     userRepository
             );
-        }
-        else if (modelClass.isAssignableFrom(ViewModelWorkmates.class)){
+        } else if (modelClass.isAssignableFrom(ViewModelWorkmates.class)) {
             return (T) new ViewModelWorkmates(userRepository);
-        }
-        else if (modelClass.isAssignableFrom(ViewModelDetails.class)){
+        } else if (modelClass.isAssignableFrom(ViewModelDetails.class)) {
             return (T) new ViewModelDetails(detailsRepository, userRepository);
-        }
-        else if (modelClass.isAssignableFrom(ViewModelSettings.class)){
+        } else if (modelClass.isAssignableFrom(ViewModelSettings.class)) {
             return (T) new ViewModelSettings(userRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class" + modelClass);

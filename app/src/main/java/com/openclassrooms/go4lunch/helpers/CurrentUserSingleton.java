@@ -14,7 +14,8 @@ public class CurrentUserSingleton {
         return userSingleton;
     }
 
-    public CurrentUserSingleton() {}
+    public CurrentUserSingleton() {
+    }
 
     public void setUser(User user) {
         this.user = user;

@@ -13,9 +13,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:text="@string/settings_notification_title"
         android:textAlignment="center"
         android:textSize="16sp"
-        android:text="@string/settings_notification_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,9 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         android:checked="true"
         android:text="@string/settings_activate_notification"
-        app:layout_constraintStart_toEndOf="@id/text_settings"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_settings" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

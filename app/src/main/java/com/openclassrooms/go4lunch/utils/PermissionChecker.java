@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 public class PermissionChecker {
+
     @NonNull
     private final Application application;
 

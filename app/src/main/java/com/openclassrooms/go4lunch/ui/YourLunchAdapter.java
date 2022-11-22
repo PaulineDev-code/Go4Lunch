@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.go4lunch.BuildConfig;
 import com.openclassrooms.go4lunch.databinding.RestaurantsLikedItemBinding;
 import com.openclassrooms.go4lunch.models.LikedRestaurant;
 
@@ -16,17 +18,18 @@ import java.util.List;
 
 public class YourLunchAdapter extends RecyclerView.Adapter<YourLunchAdapter.MyLunchViewHolder> {
 
-    private List<LikedRestaurant> mRestaurants;
-    private Context context;
+    private final List<LikedRestaurant> mRestaurants;
+    private final Context context;
 
-    public YourLunchAdapter(List<LikedRestaurant> restaurantsList, Context context){
+    public YourLunchAdapter(List<LikedRestaurant> restaurantsList, Context context) {
         this.mRestaurants = restaurantsList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public YourLunchAdapter.MyLunchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public YourLunchAdapter.MyLunchViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                 int viewType) {
         return new YourLunchAdapter.MyLunchViewHolder(RestaurantsLikedItemBinding
                 .inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
@@ -35,9 +38,12 @@ public class YourLunchAdapter extends RecyclerView.Adapter<YourLunchAdapter.MyLu
     public void onBindViewHolder(@NonNull YourLunchAdapter.MyLunchViewHolder holder, int position) {
         LikedRestaurant restaurant = mRestaurants.get(position);
 
-        if(restaurant.getPhotoList().get(0)!=null) {
+        if (restaurant.getPhotoList().get(0) != null) {
             Glide.with(context)
-                    .load(restaurant.getPhotoList().get(0))
+                    .load("https://maps.googleapis.com/maps/api/place/photo?maxwidth=100&photoreference="
+                            + restaurant.getPhotoList().get(0).getPhotoReference()
+                            + "&key=" + BuildConfig.apiKey)
+                    .apply(new RequestOptions().circleCrop())
                     .into(holder.binding.restaurantItemPhoto);
         }
 
@@ -54,10 +60,9 @@ public class YourLunchAdapter extends RecyclerView.Adapter<YourLunchAdapter.MyLu
 
     @Override
     public int getItemCount() {
-        if(mRestaurants == null) {
+        if (mRestaurants == null) {
             return 0;
-        }
-        else {
+        } else {
             return mRestaurants.size();
         }
     }
@@ -65,7 +70,7 @@ public class YourLunchAdapter extends RecyclerView.Adapter<YourLunchAdapter.MyLu
     public static class MyLunchViewHolder extends RecyclerView.ViewHolder {
         private final RestaurantsLikedItemBinding binding;
 
-        public MyLunchViewHolder(RestaurantsLikedItemBinding binding){
+        public MyLunchViewHolder(RestaurantsLikedItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

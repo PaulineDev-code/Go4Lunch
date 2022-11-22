@@ -12,14 +12,11 @@ import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.material.snackbar.Snackbar;
 import com.openclassrooms.go4lunch.databinding.ActivityLoginBinding;
-
 import com.openclassrooms.go4lunch.helpers.CurrentUserSingleton;
-import com.openclassrooms.go4lunch.models.User;
-import com.openclassrooms.go4lunch.viewmodels.ViewModelSignIn;
 import com.openclassrooms.go4lunch.viewmodelfactory.ViewModelFactoryGo4Lunch;
+import com.openclassrooms.go4lunch.viewmodels.ViewModelSignIn;
 
 import java.util.Collections;
-import java.util.Objects;
 
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
@@ -39,67 +36,26 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
         setupListeners();
         viewModelSignIn = new ViewModelProvider(this, ViewModelFactoryGo4Lunch.getInstance())
                 .get(ViewModelSignIn.class);
-
-
-        /*try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "com.openclassrooms.go4lunch",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }*/
     }
 
     private void setupListeners() {
         // Login Button
-        binding.facebookLoginButton.setOnClickListener(view -> {
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(Collections.singletonList(
-                                    new AuthUI.IdpConfig.FacebookBuilder().build()))
-                            .setIsSmartLockEnabled(false, true)
-                            .build(), RC_SIGN_IN);
-
-        });
-
-        binding.googleLoginButton.setOnClickListener(view -> {
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(Collections.singletonList(
-                                    new AuthUI.IdpConfig.GoogleBuilder().build()))
-                            .setIsSmartLockEnabled(false, true)
-                            .build(), RC_SIGN_IN);
-
-        });
-    }
-
-   /* private void startSignInActivity(){
-
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.FacebookBuilder().build());
-
-        // Launch the activity
-        startActivityForResult(
+        binding.facebookLoginButton.setOnClickListener(view -> startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
-                        .setTheme(R.style.FirebaseUI)
-                        .setAvailableProviders(providers)
+                        .setAvailableProviders(Collections.singletonList(
+                                new AuthUI.IdpConfig.FacebookBuilder().build()))
                         .setIsSmartLockEnabled(false, true)
-                        .setLogo(R.drawable.fui_ic_googleg_color_24dp)
-                        .build(),
-                RC_SIGN_IN);
-    }*/
+                        .build(), RC_SIGN_IN));
+
+        binding.googleLoginButton.setOnClickListener(view -> startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(Collections.singletonList(
+                                new AuthUI.IdpConfig.GoogleBuilder().build()))
+                        .setIsSmartLockEnabled(false, true)
+                        .build(), RC_SIGN_IN));
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -124,7 +80,8 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
                 viewModelSignIn.getUser().observe(this, userExist -> {
                     if (userExist) {
                         Toast.makeText(this, "connected", Toast.LENGTH_SHORT).show();
-                        Intent intentMainActivity = new Intent(this, MainActivity.class);
+                        Intent intentMainActivity =
+                                new Intent(this, MainActivity.class);
                         startActivity(intentMainActivity);
                     } else {
                         Toast.makeText(this, "Could not create user please try again",

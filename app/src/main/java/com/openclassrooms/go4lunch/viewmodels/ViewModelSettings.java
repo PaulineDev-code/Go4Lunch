@@ -11,7 +11,6 @@ import com.openclassrooms.go4lunch.repositories.UserRepository;
 public class ViewModelSettings extends ViewModel {
 
     private final UserRepository userRepository;
-    private MutableLiveData<Boolean> userNotification;
 
     public ViewModelSettings(@NonNull UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -22,8 +21,9 @@ public class ViewModelSettings extends ViewModel {
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance();
         User user = userSingleton.getUser();
         user.setIsNotified(isNotified);
-        userNotification = userRepository.updateUserNotifications(isNotified);
-        if(userNotification.getValue() != null && userNotification.getValue()) {
+        MutableLiveData<Boolean> userNotification =
+                userRepository.updateUserNotifications(isNotified);
+        if (userNotification.getValue() != null && userNotification.getValue()) {
             userSingleton.setUser(user);
             bool = true;
         } else {

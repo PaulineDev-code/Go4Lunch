@@ -25,26 +25,26 @@ public class ChatHelper {
         return CHAT_HELPER;
     }
 
-    public CollectionReference getMessageCollection(){
+    public CollectionReference getMessageCollection() {
         return FirebaseFirestore.getInstance().collection(MESSAGE_COLLECTION);
     }
 
     //Get all last messages to display
-    public Query getAllMessageForChat(){
+    public Query getAllMessageForChat() {
         return this.getMessageCollection()
                 .orderBy("dateCreated")
                 .limit(50);
     }
 
     //Create a new message
-    public void createMessageForChat(String textMessage){
+    public void createMessageForChat(String textMessage) {
 
-            // Create the Message object
-            User user = CurrentUserSingleton.getInstance().getUser();
-            Message message = new Message(textMessage, user);
+        // Create the Message object
+        User user = CurrentUserSingleton.getInstance().getUser();
+        Message message = new Message(textMessage, user);
 
-            // Store Message to Firestore
-            ChatHelper.this.getMessageCollection().add(message);
+        // Store Message to Firestore
+        ChatHelper.this.getMessageCollection().add(message);
 
     }
 }

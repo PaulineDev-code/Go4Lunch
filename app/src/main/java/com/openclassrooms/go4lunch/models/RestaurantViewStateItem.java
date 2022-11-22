@@ -20,12 +20,14 @@ public class RestaurantViewStateItem {
 
     public RestaurantViewStateItem(
             String placeId, String name, Double rating, OpeningHours open_now,
-            String vicinity, Location location, List<Photo> photoList, Integer workmates, Float distance) {
+            String vicinity, Location location, List<Photo> photoList,
+            Integer workmates, Float distance) {
 
         this.placeId = placeId;
         this.name = name;
         this.rating = rating;
-        this.open_now = open_now == null? "Pas d'infos" : (open_now.getOpenNow()?"Ouvert":"Fermé");
+        this.open_now = open_now
+                == null ? "Pas d'infos" : (open_now.getOpenNow() ? "Ouvert" : "Fermé");
         this.vicinity = vicinity;
         this.location = location;
         this.photoList = photoList;
@@ -97,7 +99,11 @@ public class RestaurantViewStateItem {
         this.workmates = workmates;
     }
 
-    public Float getDistance() { return distance; }
+    public Float getDistance() {
+        return distance;
+    }
 
-    public void setDistance(Float distance) { this.distance = distance; }
+    public void setDistance(Float distance) {
+        this.distance = distance;
+    }
 }

@@ -43,20 +43,21 @@ public class SettingsFragment extends Fragment {
         binding = null;
     }
 
-    private void initUI(){
+    private void initUI() {
 
         Boolean isNotified = CurrentUserSingleton.getInstance().getUser().getIsNotified();
 
         binding.settingsSwitchButton.setChecked(isNotified);
 
-        binding.settingsSwitchButton.setOnClickListener( v -> {
+        binding.settingsSwitchButton.setOnClickListener(v -> {
             boolean newNotified = !CurrentUserSingleton.getInstance().getUser().getIsNotified();
-            Boolean notificationChangesResult = null;
+            Boolean notificationChangesResult;
             notificationChangesResult = viewModelSettings.updateUserNotifications(newNotified);
-            if(notificationChangesResult) {
+            if (notificationChangesResult) {
                 binding.settingsSwitchButton.setChecked(newNotified);
             } else {
-                Toast.makeText(this.getContext(), "Error occurred, please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getContext(),
+                        "Error occurred, please try again", Toast.LENGTH_SHORT).show();
             }
 
         });

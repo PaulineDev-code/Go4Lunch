@@ -5,7 +5,6 @@ import com.google.firebase.firestore.Query;
 import com.openclassrooms.go4lunch.helpers.ChatHelper;
 
 
-
 public class ChatRepository {
 
     private final ChatHelper chatHelper = ChatHelper.getInstance();
@@ -19,11 +18,11 @@ public class ChatRepository {
         return CHAT_REPOSITORY;
     }
 
-    public Query getAllMessageForChat(){
+    public Query getAllMessageForChat() {
         return chatHelper.getAllMessageForChat();
     }
 
-    public void createMessageForChat(String message){
+    public void createMessageForChat(String message) {
         chatHelper.createMessageForChat(message);
     }
 }

@@ -10,6 +10,7 @@ import androidx.viewbinding.ViewBinding;
 abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     abstract T getViewBinding();
+
     protected T binding;
 
     @Override
@@ -21,7 +22,7 @@ abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
     /**
      * Initialise the binding object and the layout of the activity
      */
-    private void initBinding(){
+    private void initBinding() {
         binding = getViewBinding();
         View view = binding.getRoot();
         setContentView(view);

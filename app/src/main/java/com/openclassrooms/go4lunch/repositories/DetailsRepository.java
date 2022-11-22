@@ -11,9 +11,6 @@ import com.openclassrooms.go4lunch.models.restaurantdetails.ResultDetails;
 import com.openclassrooms.go4lunch.service.ApiInterface;
 import com.openclassrooms.go4lunch.service.RetrofitService;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,20 +18,21 @@ import retrofit2.Response;
 public class DetailsRepository {
 
     private final MutableLiveData<ResultDetails> restaurantDetailsResults = new MutableLiveData<>();
-    private static final String API_FIELDS = "formatted_address,geometry,photos,vicinity,place_id,"+
-            "name,rating,opening_hours,website,international_phone_number";
+    private static final String API_FIELDS = "formatted_address,geometry,photos,vicinity,place_id,"
+            + "name,rating,opening_hours,website,international_phone_number";
 
 
-    public MutableLiveData<ResultDetails> getRestaurantDetails(String placeId){
+    public MutableLiveData<ResultDetails> getRestaurantDetails(String placeId) {
         ApiInterface apiInterface = RetrofitService.getInterface();
-        if(placeId != null){
+        if (placeId != null) {
             Call<DetailsPOJO> restaurantDetails = apiInterface.getDetailsRestaurant(
                     placeId, API_FIELDS, BuildConfig.apiKey
             );
             restaurantDetails.enqueue(new Callback<DetailsPOJO>() {
                 @Override
-                public void onResponse(@NonNull Call<DetailsPOJO> call, @NonNull Response<DetailsPOJO> response) {
-                    if(response.body() != null) {
+                public void onResponse(@NonNull Call<DetailsPOJO> call,
+                                       @NonNull Response<DetailsPOJO> response) {
+                    if (response.body() != null) {
                         restaurantDetailsResults.setValue(response.body().getResult());
                     }
                 }

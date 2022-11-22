@@ -1,7 +1,5 @@
 package com.openclassrooms.go4lunch.viewmodels;
 
-import android.location.Location;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -44,7 +42,7 @@ public class ViewModelDetails extends ViewModel {
         CombinedLiveData2<ResultDetails, List<User>> combinedLiveData2 = new CombinedLiveData2<>(
                 detailsLiveData, workmatesGoingLiveData);
         return Transformations.map(combinedLiveData2, myPair -> {
-            if(myPair.first != null && myPair.second != null) {
+            if (myPair.first != null && myPair.second != null) {
                 return new DetailsViewStateItem(
                         myPair.first.getName(),
                         myPair.first.getPlaceId(),
@@ -57,7 +55,9 @@ public class ViewModelDetails extends ViewModel {
                         myPair.first.getInternationalPhoneNumber(),
                         getListOfWorkmatesGoing(placeId, myPair.second)
                 );
-            } else { return null; }
+            } else {
+                return null;
+            }
         });
     }
 
@@ -66,7 +66,7 @@ public class ViewModelDetails extends ViewModel {
         for (User result : listWorkmates) {
             if ((result.getNextLunchRestaurantId() != null) &&
                     (result.getNextLunchRestaurantId().equals(placeId))) {
-            listWorkmatesGoing.add(result);
+                listWorkmatesGoing.add(result);
             }
         }
         return listWorkmatesGoing;
@@ -78,11 +78,11 @@ public class ViewModelDetails extends ViewModel {
 
     public void addLikedRestaurant(DetailsViewStateItem likedRestaurantDetails) {
         User user = CurrentUserSingleton.getInstance().getUser();
-        LikedRestaurant likedRestaurant = new LikedRestaurant(likedRestaurantDetails.getName() ,
+        LikedRestaurant likedRestaurant = new LikedRestaurant(likedRestaurantDetails.getName(),
                 likedRestaurantDetails.getPlaceId(), likedRestaurantDetails.getAddress(),
                 likedRestaurantDetails.getPhotoList());
         ArrayList<LikedRestaurant> likedRestaurants;
-        if(user.getLikedRestaurants() == null) {
+        if (user.getLikedRestaurants() == null) {
             likedRestaurants = new ArrayList<>();
         } else {
             likedRestaurants = user.getLikedRestaurants();
@@ -97,8 +97,8 @@ public class ViewModelDetails extends ViewModel {
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance();
         User user = userSingleton.getUser();
         ArrayList<LikedRestaurant> likedRestaurants = user.getLikedRestaurants();
-        for(LikedRestaurant restaurant : likedRestaurants) {
-            if(restaurant.getPlaceId().equals(unlikedRestaurant.getPlaceId())) {
+        for (LikedRestaurant restaurant : likedRestaurants) {
+            if (restaurant.getPlaceId().equals(unlikedRestaurant.getPlaceId())) {
                 likedRestaurants.remove(restaurant);
             }
         }
@@ -106,43 +106,5 @@ public class ViewModelDetails extends ViewModel {
         userSingleton.setUser(user);
         userRepository.updateLikedRestaurants(likedRestaurants);
     }
-
-    public LiveData<Boolean> updateLikedRestaurants(DetailsViewStateItem likedRestaurantDetails) {
-        CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance();
-        User user = userSingleton.getUser();
-        MutableLiveData<Boolean> likedRestaurantLiveData = new MutableLiveData<>();
-        ArrayList<LikedRestaurant> restaurantsLiked;
-        LikedRestaurant likedRestaurant = new LikedRestaurant(likedRestaurantDetails.getName() ,
-                likedRestaurantDetails.getPlaceId(), likedRestaurantDetails.getAddress(),
-                likedRestaurantDetails.getPhotoList());
-        Boolean bool = null;
-        if(user.getLikedRestaurants() != null && !user.getLikedRestaurants().isEmpty()) {
-            restaurantsLiked = new ArrayList<>(user.getLikedRestaurants());
-            for (LikedRestaurant restaurant :
-                 restaurantsLiked) {
-                if (restaurant.getPlaceId().equals(likedRestaurant.getPlaceId())) {
-                    restaurantsLiked.remove(restaurant);
-                    bool = false;
-                } else {
-                    restaurantsLiked.add(likedRestaurant);
-                    bool = true;
-                }
-            }
-        } else {
-            restaurantsLiked = new ArrayList<>();
-            restaurantsLiked.add(likedRestaurant);
-            bool = true;
-        }
-        Boolean finalBool = bool;
-        userRepository.updateLikedRestaurants(restaurantsLiked).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                user.setLikedRestaurants(restaurantsLiked);
-                userSingleton.setUser(user);
-                likedRestaurantLiveData.postValue(finalBool);
-            }
-        });
-        return likedRestaurantLiveData;
-    }
-
 
 }

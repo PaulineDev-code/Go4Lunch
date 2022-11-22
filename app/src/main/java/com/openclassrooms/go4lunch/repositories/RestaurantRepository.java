@@ -25,17 +25,18 @@ public class RestaurantRepository {
     private final MutableLiveData<List<Result>> getNearbyRestaurants = new MutableLiveData<>();
 
 
-    public MutableLiveData<List<Result>> getNearbyRestaurants(String location){
+    public MutableLiveData<List<Result>> getNearbyRestaurants(String location) {
         ApiInterface apiInterface = RetrofitService.getInterface();
-        if(location != null){
+        if (location != null) {
             Call<PlacesPOJO> nearbyRestaurants = apiInterface.getNearbyPlaces(
-                    location,  TYPE_KEYWORD, BuildConfig.apiKey
+                    location, TYPE_KEYWORD, BuildConfig.apiKey
             );
             getNearbyRestaurants.setValue(new ArrayList<>());
             nearbyRestaurants.enqueue(new Callback<PlacesPOJO>() {
                 @Override
-                public void onResponse(@NonNull Call<PlacesPOJO> call, @NonNull Response<PlacesPOJO> response) {
-                    if(response.body() != null) {
+                public void onResponse(@NonNull Call<PlacesPOJO> call,
+                                       @NonNull Response<PlacesPOJO> response) {
+                    if (response.body() != null) {
                         getNearbyRestaurants.setValue(response.body().getResults());
                     }
                 }

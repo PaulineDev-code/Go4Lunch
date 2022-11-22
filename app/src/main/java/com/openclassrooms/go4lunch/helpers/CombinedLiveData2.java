@@ -12,9 +12,9 @@ public class CombinedLiveData2<A, B> extends MediatorLiveData<Pair<A, B>> {
         setValue(Pair.create(a, b));
 
         addSource(ld1, (a) -> {
-            if(a != null) {
+            if (a != null) {
                 this.a = a;
-                if(b != null) {
+                if (b != null) {
                     setValue(Pair.create(a, b));
                 }
             }
@@ -22,9 +22,9 @@ public class CombinedLiveData2<A, B> extends MediatorLiveData<Pair<A, B>> {
         });
 
         addSource(ld2, (b) -> {
-            if(b != null) {
+            if (b != null) {
                 this.b = b;
-                if(a != null) {
+                if (a != null) {
                     setValue(Pair.create(a, b));
                 }
             }

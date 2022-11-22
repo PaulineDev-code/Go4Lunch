@@ -22,8 +22,9 @@ public class ViewModelSignIn extends ViewModel {
         if (CurrentUserSingleton.getInstance().getUser() == null) {
             userCreationLiveData = userRepository.getUser();
         } else {
-            userCreationLiveData.postValue(true);}
+            userCreationLiveData.postValue(true);
+        }
         return userCreationLiveData;
     }
-    
+
 }

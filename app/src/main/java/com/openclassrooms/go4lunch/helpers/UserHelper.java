@@ -52,11 +52,10 @@ public class UserHelper {
         User userToCreate = new User(uid, username, userEmail, urlPicture, null,
                 null, new ArrayList<>(), FCM_TOKEN, true);
         getUsersCollection().document(uid).set(userToCreate).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
+            if (task.isSuccessful()) {
                 CurrentUserSingleton.getInstance().setUser(userToCreate);
                 createUserLiveData.postValue(true);
-            }
-            else if(!task.isSuccessful()) {
+            } else if (!task.isSuccessful()) {
                 createUserLiveData.postValue(false);
             }
         });
@@ -77,10 +76,12 @@ public class UserHelper {
 
     public Task<Void> updateLikedRestaurant(ArrayList<LikedRestaurant> restaurantsLiked) {
         User user = CurrentUserSingleton.getInstance().getUser();
-        if(user != null){
+        if (user != null) {
             return FirebaseFirestore.getInstance().collection("users")
                     .document(user.getUid()).update("likedRestaurants", restaurantsLiked);
-        } else {return null;}
+        } else {
+            return null;
+        }
     }
 
 
@@ -97,9 +98,11 @@ public class UserHelper {
         return getUsersCollection().whereNotEqualTo(
                 "uid", Objects.requireNonNull(getCurrentUser()).getUid()).get()
                 .addOnCompleteListener(
-                    task -> {
-                        if(task.isSuccessful()) { task.getResult(); }
-                    }
+                        task -> {
+                            if (task.isSuccessful()) {
+                                task.getResult();
+                            }
+                        }
                 );
     }
 
@@ -109,7 +112,9 @@ public class UserHelper {
                 "nextLunchRestaurantId", Objects.requireNonNull(placeId)).get()
                 .addOnCompleteListener(
                         task -> {
-                            if(task.isSuccessful()) { task.getResult(); }
+                            if (task.isSuccessful()) {
+                                task.getResult();
+                            }
                         }
                 );
     }
@@ -120,10 +125,12 @@ public class UserHelper {
 
     public Task<Void> updateUserNotifications(Boolean isNotified) {
         User user = CurrentUserSingleton.getInstance().getUser();
-        if(user != null) {
+        if (user != null) {
             return FirebaseFirestore.getInstance().collection("users")
                     .document(user.getUid()).update("isNotified", isNotified);
-        } else {return null;}
+        } else {
+            return null;
+        }
     }
 
     @Nullable

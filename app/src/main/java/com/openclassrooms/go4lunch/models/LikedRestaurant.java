@@ -20,20 +20,36 @@ public class LikedRestaurant {
         this.photoList = photoList;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getPlaceId() { return placeId; }
+    public String getPlaceId() {
+        return placeId;
+    }
 
-    public String getAddress() { return address; }
+    public String getAddress() {
+        return address;
+    }
 
-    public List<Photo> getPhotoList() { return photoList; }
+    public List<Photo> getPhotoList() {
+        return photoList;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setPlaceId(String placeId) { this.placeId = placeId; }
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
 
-    public void setAddress(String address) { this.address = address; }
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-    public void setPhotoList(List<Photo> photoList) { this.photoList = photoList; }
+    public void setPhotoList(List<Photo> photoList) {
+        this.photoList = photoList;
+    }
 
 }

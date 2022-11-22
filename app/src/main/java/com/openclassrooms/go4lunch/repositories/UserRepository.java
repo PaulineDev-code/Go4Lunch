@@ -39,21 +39,21 @@ public class UserRepository {
         return USER_REPOSITORY;
     }
 
-    public MutableLiveData<Boolean> getUser(){
+    public MutableLiveData<Boolean> getUser() {
         // Get the user from Firestore and cast it to a User model Object
         userHelper.getUserData().addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                if(task.getResult().exists()) {
+            if (task.isSuccessful()) {
+                if (task.getResult().exists()) {
                     CurrentUserSingleton.getInstance().setUser(task.getResult().toObject(User.class));
                     getExistingUser.postValue(true);
                 } else {
                     MutableLiveData<Boolean> createUserLiveData = userHelper.createUser();
-                    Transformations.map(createUserLiveData ,getBoolean -> {
+                    Transformations.map(createUserLiveData, getBoolean -> {
                         getExistingUser.postValue(getBoolean);
                         return getExistingUser;
                     });
                 }
-            } else if(!task.isSuccessful()) {
+            } else if (!task.isSuccessful()) {
                 getExistingUser.postValue(false);
             }
         });
@@ -61,11 +61,11 @@ public class UserRepository {
     }
 
     //Get the list of users without the current user
-    public MutableLiveData<List<User>> getWorkmates(){
+    public MutableLiveData<List<User>> getWorkmates() {
         userHelper.getAllWorkmates().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 ArrayList<User> users = new ArrayList<>();
-                for( QueryDocumentSnapshot document : task.getResult()){
+                for (QueryDocumentSnapshot document : task.getResult()) {
                     users.add(document.toObject(User.class));
                 }
                 getAllWorkmates.postValue(users);
@@ -76,9 +76,9 @@ public class UserRepository {
 
     public MutableLiveData<List<User>> getWorkmatesForRestaurant(String placeId) {
         userHelper.getWorkmatesForRestaurant(placeId).addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
+            if (task.isSuccessful()) {
                 ArrayList<User> workmates = new ArrayList<>();
-                for( QueryDocumentSnapshot document : task.getResult()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
                     workmates.add(document.toObject(User.class));
                 }
                 workmatesForRestaurant.postValue(workmates);
@@ -101,25 +101,25 @@ public class UserRepository {
 
     public MutableLiveData<Boolean> updateUserNotifications(Boolean isNotified) {
         userHelper.updateUserNotifications(isNotified).addOnCompleteListener(task -> {
-           if (task.isSuccessful()) {
-               notificationsTaskResult.postValue(true);
-           } else {
-               notificationsTaskResult.postValue(false);
-           }
+            if (task.isSuccessful()) {
+                notificationsTaskResult.postValue(true);
+            } else {
+                notificationsTaskResult.postValue(false);
+            }
         });
         return notificationsTaskResult;
     }
 
     @Nullable
-    public FirebaseUser getCurrentUser(){
+    public FirebaseUser getCurrentUser() {
         return userHelper.getCurrentUser();
     }
 
-    public Boolean isCurrentUserLogged(){
+    public Boolean isCurrentUserLogged() {
         return (this.getCurrentUser() != null);
     }
 
-    public Task<Void> signOut(Context context){
+    public Task<Void> signOut(Context context) {
         return userHelper.signOut(context);
     }
 

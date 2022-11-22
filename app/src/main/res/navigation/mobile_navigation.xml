@@ -30,7 +30,7 @@
         tools:layout="@layout/fragment_your_lunch"/>
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/drawer_settings"
         android:name="com.openclassrooms.go4lunch.ui.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings"/>

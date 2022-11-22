@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout_textview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.YourLunchFragment">
@@ -35,13 +36,14 @@
         android:id="@+id/your_next_lunch_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:textSize="20sp"
-        android:textColor="@color/com_facebook_messenger_blue"
-        android:focusable="true"
         android:clickable="true"
+        android:focusable="true"
+        android:textColor="@color/com_facebook_messenger_blue"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/your_next_lunch_title" />
 
@@ -54,21 +56,20 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/your_next_lunch_title"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/restaurants_liked_rv"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/your_next_lunch_name" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/restaurants_liked_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/your_favorites_restaurants"
+        app:layout_constraintTop_toBottomOf="@id/your_favorites_restaurants"
         tools:context="com.openclassrooms.go4lunch.ui.YourLunchFragment"
         tools:listitem="@layout/restaurants_liked_item" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.openclassrooms.go4lunch.R;
 import com.openclassrooms.go4lunch.models.Message;
 import com.openclassrooms.go4lunch.repositories.UserRepository;
+
 import java.util.Objects;
 
 public class ChatAdapter extends FirestoreRecyclerAdapter<Message, MessageViewHolder> {
@@ -26,9 +27,10 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, MessageViewHo
 
     private final RequestManager glide;
 
-    private Listener callback;
+    private final Listener callback;
 
-    public ChatAdapter(@NonNull FirestoreRecyclerOptions<Message> options, RequestManager glide, Listener callback) {
+    public ChatAdapter(@NonNull FirestoreRecyclerOptions<Message> options,
+                       RequestManager glide, Listener callback) {
         super(options);
         this.glide = glide;
         this.callback = callback;
@@ -37,18 +39,21 @@ public class ChatAdapter extends FirestoreRecyclerAdapter<Message, MessageViewHo
     @Override
     public int getItemViewType(int position) {
         // Determine the type of the message by if the user is the sender or not
-        String currentUserId = Objects.requireNonNull(UserRepository.getInstance().getCurrentUser()).getUid();
+        String currentUserId = Objects.requireNonNull(UserRepository.getInstance().getCurrentUser())
+                .getUid();
         boolean isSender = getItem(position).getUserSender().getUid().equals(currentUserId);
 
         return (isSender) ? SENDER_TYPE : RECEIVER_TYPE;
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull MessageViewHolder holder, int position, @NonNull Message model) {
+    protected void onBindViewHolder(@NonNull MessageViewHolder holder,
+                                    int position, @NonNull Message model) {
         holder.itemView.invalidate();
         holder.updateWithMessage(model, this.glide);
     }
 
+    @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MessageViewHolder(LayoutInflater.from(parent.getContext())

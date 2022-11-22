@@ -12,13 +12,12 @@ public class ViewModelWorkmates extends ViewModel {
 
     private final UserRepository userRepository;
 
-    public ViewModelWorkmates(UserRepository userRepository){
+    public ViewModelWorkmates(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     public LiveData<List<User>> getWorkmatesLiveData() {
         return userRepository.getWorkmates();
     }
-
 
 }

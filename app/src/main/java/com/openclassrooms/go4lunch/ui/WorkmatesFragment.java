@@ -30,9 +30,9 @@ public class WorkmatesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView (@NonNull LayoutInflater inflater,
-                              ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = FragmentWorkmatesBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         initUI();
@@ -61,7 +61,5 @@ public class WorkmatesFragment extends Fragment {
         Intent intentChatActivity = new Intent(this.getContext(), ChatActivity.class);
         startActivity(intentChatActivity);
     }
-
-
 
 }
